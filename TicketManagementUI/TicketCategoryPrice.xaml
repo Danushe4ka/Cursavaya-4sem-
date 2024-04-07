@@ -1,0 +1,22 @@
+﻿<Window x:Class="TicketManagementUI.TicketCategoryPrice"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TicketManagementUI"
+        mc:Ignorable="d"
+        Title="TicketCategoryPrice" Height="417" Width="259">
+    <Grid>
+        <ListView x:Name="TicketTypesData" SelectionMode="Single" Margin="32,32,32,149" SelectionChanged="TicketTypesData_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=TypeName}">Тип билета</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=TypeCost}">Цена на тип</GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button x:Name="RedactButton" Content="Редактировать" HorizontalAlignment="Center" Margin="0,327,0,0" VerticalAlignment="Top" Click="RedactButton_Click"/>
+        <TextBox x:Name="ChangedPriceBox" HorizontalAlignment="Center" Margin="0,287,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+
+    </Grid>
+</Window>

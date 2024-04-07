@@ -1,0 +1,115 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TicketManagementUI"
+        xmlns:DataAccess="clr-namespace:DBObjectsClassLibrary.DataAccess;assembly=DBObjectsClassLibrary" x:Class="TicketManagementUI.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow_Close" Height="562" Width="983"
+        Closing="MainWindow_Closing">
+    <Grid Margin="0,0,0,-6">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0*"/>
+        </Grid.ColumnDefinitions>
+        <TabControl>
+            <TabItem Header="Афиша">
+                <Grid>
+                <ListView x:Name="MainDataDisplay" Margin="46,34,48,161" SelectionMode="Single" SelectionChanged="MainDataDisplay_SelectionChanged">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleName}">Название спектакля</GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleAuthor}">Автор спектакля</GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleGenre}">Жанр спектакля</GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleDate}">Дата и время спектакля</GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Button x:Name="ChangeUserButton" Content="Сменить пользователя" HorizontalAlignment="Left" Margin="807,396,0,0" VerticalAlignment="Top" Height="34" Width="128" Click="ChangeUserButton_Click"/>
+                <ComboBox x:Name="DateChoosementBox" HorizontalAlignment="Left" Margin="46,380,0,0" VerticalAlignment="Top" Width="120" Text="Дата представления" SelectionChanged="DateChoosementBox_SelectionChanged"/>
+                <Button x:Name="ChooseDateButton" Content="Выбрать дату" HorizontalAlignment="Left" Margin="46,413,0,0" VerticalAlignment="Top" Height="20" Width="120" Click="ChooseDateButton_Click" IsEnabled="False"/>
+                <Button x:Name="ChooseGenreButton" Content="Выбрать жанр" HorizontalAlignment="Left" Margin="226,413,0,0" VerticalAlignment="Top" Height="20" Width="120" Click="ChooseGenreButton_Click" IsEnabled="False"/>
+                <ComboBox x:Name="GenreChoosementBox" HorizontalAlignment="Left" Margin="226,380,0,0" VerticalAlignment="Top" Width="120" Text="Жанр представления" SelectionChanged="GenreChoosementBox_SelectionChanged"/>
+                <Button x:Name="ChooseAll" Content="Обновить" HorizontalAlignment="Center" Margin="0,396,0,0" VerticalAlignment="Top" Height="20" Width="120" Click="ChooseAll_Click"/>
+                <ComboBox x:Name="CategoryChoosementBox" HorizontalAlignment="Left" Margin="46,458,0,0" VerticalAlignment="Top" Width="120" Text="Категория билета" SelectionChanged="CategoryChoosementBox_SelectionChanged"/>
+                <Button x:Name="ChooseCategoryButton" Content="Выбрать по свободным местам" HorizontalAlignment="Left" Margin="204,460,0,0" VerticalAlignment="Top" Height="20" Width="181" Click="ChooseCategoryButton_Click" IsEnabled="False"/>
+                <Button x:Name="TicketBuyButton" Content="Купить билет" HorizontalAlignment="Center" Margin="0,430,0,0" VerticalAlignment="Top" Height="39" Width="122" Click="TicketBuyButton_Click" Visibility="Hidden" IsEnabled="False"/>
+            </Grid>
+            </TabItem>
+            <TabItem x:Name="UserTicketsInfo" Header="Приобретённые билеты" IsEnabled="False" Visibility="Hidden">
+                <Grid>
+                    <ListView x:Name="TicketsDataDisplay" Margin="46,34,48,161">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleName}">Название спектакля</GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleAdditionalInformation}">Информация о спектакле</GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=TypeName}">Тип билета</GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Place}">Место</GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=IsConfirmed}">Доставлен</GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <TextBlock TextAlignment="Center" Margin="0,380,0,0" FontSize="16" HorizontalAlignment="Center" Foreground="Red">Внимание! За доставленные заказы средства не возвращаются!</TextBlock>
+                    <Button x:Name="ReturnTicketButton" Content="Отменить заказ" HorizontalAlignment="Center" Margin="0,430,0,0" VerticalAlignment="Top" Height="39" Width="122" Click="ReturnTicketButton_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="CourierInfo" Header="Заказы" IsEnabled="False" Visibility="Hidden">
+                <Grid>
+                    <ListView x:Name="OrdersDataDisplay" Margin="46,34,48,161">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleName}">Название спектакля</GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=UserName}">Имя пользователя</GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleAdditionalInformation}">Информация о спектакле</GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=TypeName}">Тип билета</GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Place}">Место</GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button x:Name="ConfrimOrderButton" Content="Подтвердить заказ" HorizontalAlignment="Center" Margin="0,430,0,0" VerticalAlignment="Top" Height="39" Width="122" Click="ConfrimOrderButton_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="UsersInfo" Header="Пользователи" IsEnabled="False" Visibility="Hidden">
+                <Grid>
+                    <ListView x:Name="UsersDataDisplay" Margin="46,34,48,161" SelectionMode="Single">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=UserName}">Имя пользователя</GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Password}">Пароль</GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Role}">Роль</GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button x:Name="DeleteUserButton" Content="Удалить пользователя" HorizontalAlignment="Center" Margin="0,430,300,0" VerticalAlignment="Top" Height="39" Width="122" Click="DeleteUserButton_Click"/>
+                    <Button x:Name="CreateCourierButton" Content="Добавить курьера" HorizontalAlignment="Center" Margin="300,430,0,0" VerticalAlignment="Top" Height="39" Width="122" Click="CreateCourierButton_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="SpectaclesInfo" Header="Спектакли" IsEnabled="False" Visibility="Hidden">
+                <Grid>
+                    <ListView x:Name="SpectaclesDataDisplay" Margin="46,34,48,161" SelectionMode="Single">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleName}">Название спектакля</GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleAuthor}">Автор спектакля</GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleGenre}">Жанр спектакля</GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleDate}">Дата и время спектакля</GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button x:Name="DeleteSpectacleButton" Content="Удалить спектакль" HorizontalAlignment="Center" Margin="0,430,500,0" VerticalAlignment="Top" Height="39" Width="122" Click="DeleteSpectacleButton_Click"/>
+                    <Button x:Name="CreateSpectacleButton" Content="Добавить спектакль" HorizontalAlignment="Center" Margin="500,430,0,0" VerticalAlignment="Top" Height="39" Width="122" Click="CreateSpectacleButton_Click"/>
+                    <Button x:Name="ChangeTicketCategoryPriceButton" Content="Изменить цены на типы билетов" HorizontalAlignment="Center" Margin="0,430,0,0" VerticalAlignment="Top" Height="39" Width="200" Click="ChangeTicketCategoryPriceButton_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="Reports" Header="Отчёты" IsEnabled="False" Visibility="Hidden">
+                <Grid>
+                    <TextBox x:Name="ReportsDisplay" Margin="46,34,48,161" IsReadOnly="True"/>
+                    <Button x:Name="TotalSalesButton" Content="Общий отчёт по продажам" HorizontalAlignment="Center" Margin="0,430,0,0" VerticalAlignment="Top" Height="39" Width="160" Click="CreateMainReport_Click"/>
+                    <Button x:Name="TicketTypeSalesButton" Content="Отчёт по продажам каждого типа билета" HorizontalAlignment="Center" Margin="600,430,0,0" VerticalAlignment="Top" Height="39" Width="250" Click="CreateTicketReport_Click"/>
+                    <Button x:Name="SpectaclesSalesButton" Content="Отчёт по продажам за каждый спектакль" HorizontalAlignment="Center" Margin="0,430,600,0" VerticalAlignment="Top" Height="39" Width="250" Click="CreateSpectaclesReport_Click"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
