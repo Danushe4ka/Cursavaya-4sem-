@@ -105,9 +105,10 @@
             <TabItem x:Name="Reports" Header="Отчёты" IsEnabled="False" Visibility="Hidden">
                 <Grid>
                     <TextBox x:Name="ReportsDisplay" Margin="46,34,48,161" IsReadOnly="True"/>
-                    <Button x:Name="TotalSalesButton" Content="Общий отчёт по продажам" HorizontalAlignment="Center" Margin="0,430,0,0" VerticalAlignment="Top" Height="39" Width="160" Click="CreateMainReport_Click"/>
+                    <Button x:Name="TotalSalesButton" Content="Общий отчёт по продажам" HorizontalAlignment="Center" Margin="0,400,0,0" VerticalAlignment="Top" Height="39" Width="160" Click="CreateMainReport_Click"/>
                     <Button x:Name="TicketTypeSalesButton" Content="Отчёт по продажам каждого типа билета" HorizontalAlignment="Center" Margin="600,430,0,0" VerticalAlignment="Top" Height="39" Width="250" Click="CreateTicketReport_Click"/>
                     <Button x:Name="SpectaclesSalesButton" Content="Отчёт по продажам за каждый спектакль" HorizontalAlignment="Center" Margin="0,430,600,0" VerticalAlignment="Top" Height="39" Width="250" Click="CreateSpectaclesReport_Click"/>
+                    <Button x:Name="SaveReportButton" Content="Сохранить .txt" HorizontalAlignment="Center" Margin="0,460,0,0" VerticalAlignment="Top" Height="30" Width="160" Click="SaveReportButton_Click"/>
                 </Grid>
             </TabItem>
         </TabControl>

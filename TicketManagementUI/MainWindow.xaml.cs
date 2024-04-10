@@ -2,11 +2,13 @@
 using DBObjectsClassLibrary.DataAccess;
 using DBObjectsClassLibrary.Models;
 using DBObjectsClassLibrary.Utility;
+using Microsoft.Win32;
 using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -289,6 +291,17 @@ namespace TicketManagementUI
         public void CreateSpectaclesReport_Click(object sender, RoutedEventArgs e)
         {
             ReportsDisplay.Text = _reportBuilder.GetSalseReportBySpectacle();
+        }
+        public void SaveReportButton_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Text files(*.txt)|*.txt|All files(*.*)|*.*";
+            if (saveFileDialog.ShowDialog() != false)
+            {
+                string fileName = saveFileDialog.FileName;
+                File.WriteAllText(fileName, ReportsDisplay.Text);
+                MessageBox.Show("Отчёт успешно сохранён!");
+            }
         }
 
         private void MainDataDisplay_SelectionChanged(object sender, SelectionChangedEventArgs e)
