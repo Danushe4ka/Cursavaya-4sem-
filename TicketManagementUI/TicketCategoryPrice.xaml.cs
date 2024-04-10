@@ -50,7 +50,7 @@ namespace TicketManagementUI
                 ticketTypesManager.Update(new TicketType(type.TypeId, type.TypeName, type.TypeAmount, Convert.ToDouble(ChangedPriceBox.Text)));
                 updateTicketTypes();
             }
-            catch {MessageBox.Show("Неверный ввод центы на тип билета"); }
+            catch {MessageBox.Show("Неверный ввод цены на тип билета"); }
         }
     }
 }
