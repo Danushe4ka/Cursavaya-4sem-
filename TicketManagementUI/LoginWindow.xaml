@@ -7,10 +7,18 @@
         mc:Ignorable="d"
         Title="LoginWindow" Height="513" Width="363">
     <Grid>
+        <Grid.OpacityMask>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="Black"/>
+                <GradientStop Color="#FF35739A" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.OpacityMask>
         <TextBox x:Name="UserName" HorizontalAlignment="Center" Margin="0,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="182" Height="40" MaxLength="40" TextChanged="UserName_TextChanged"/>
-        <PasswordBox x:Name="UserPassword" HorizontalAlignment="Center" Margin="0,169,0,0" VerticalAlignment="Top" Width="182" Height="31" MaxLength="14" PasswordChar="*"/>
+        <PasswordBox x:Name="UserPassword" HorizontalAlignment="Center" Margin="0,191,0,0" VerticalAlignment="Top" Width="182" Height="31" MaxLength="14" PasswordChar="*"/>
         <Button x:Name="LoginButton" Content="Войти" HorizontalAlignment="Center" Margin="0,287,0,0" VerticalAlignment="Top" Height="40" Width="119" Click="LoginButton_Click"/>
         <Button x:Name="GuestButton" Content="Гостевой вход" HorizontalAlignment="Center" Margin="0,355,0,0" VerticalAlignment="Top" Height="40" Width="119" Click="GuestButton_Click"/>
         <Button x:Name="RegisterButton" Content="Зарегистрироваться" HorizontalAlignment="Center" Margin="0,417,0,0" VerticalAlignment="Top" Height="40" Width="119" Click="RegisterButton_Click"/>
+        <Label Content="Имя пользователя" HorizontalAlignment="Center" Margin="0,47,0,0" VerticalAlignment="Top" Height="26" Width="119" HorizontalContentAlignment="Center"/>
+        <Label Content="Пароль" HorizontalAlignment="Center" Margin="0,149,0,0" VerticalAlignment="Top" Height="26" Width="119" HorizontalContentAlignment="Center"/>
     </Grid>
 </Window>

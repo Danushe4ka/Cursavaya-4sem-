@@ -15,8 +15,11 @@ namespace DBObjectsClassLibrary.DataAccess
     {
         public override List<BaseUser> Read()
         {
+            _command.Parameters.Clear();
             List<BaseUser> users = new List<BaseUser>();
-            _command.CommandText = "select * from Users order by UserId;";
+            _command.CommandText = "select * from Users order by @userId;";
+            NpgsqlParameter userParam = new NpgsqlParameter("@userId", "UserId");
+            _command.Parameters.Add(userParam);
             NpgsqlDataReader reader = _command.ExecuteReader();
             if (reader.HasRows)
                 while (reader.Read())
@@ -41,17 +44,31 @@ namespace DBObjectsClassLibrary.DataAccess
         }
         public override void Create(BaseUser user)
         {
-            string command = $"insert into Users(RoleId, Username, Password) values ({user.RoleId},'{user.UserName}','{user.Password}');";
+            _command.Parameters.Clear();
+            string command = $"insert into Users(RoleId, Username, Password) values (@roleParam, @nameParam, @passParam);";
             _command.CommandText = command;
+            NpgsqlParameter roleParam = new NpgsqlParameter("@roleParam", user.RoleId);
+            NpgsqlParameter nameParam = new NpgsqlParameter("@nameParam", user.UserName);
+            NpgsqlParameter passParam = new NpgsqlParameter("@passParam", user.Password);
+            _command.Parameters.Add(roleParam);
+            _command.Parameters.Add(nameParam);
+            _command.Parameters.Add(passParam);
             _command.ExecuteNonQuery();
         }
         public override void Update(BaseUser user)
         {
             if (user.RoleId != 1)
             {
-                string command = $"update Users set Username='{user.UserName}', Password='{user.Password}' ";
-                command += $"where UserId = {user.UserId}";
+                _command.Parameters.Clear();
+                string command = $"update Users set Username=@nameParam, Password=@passParam ";
+                command += $"where UserId = @idParam";
                 _command.CommandText = command;
+                NpgsqlParameter idParam = new NpgsqlParameter("@idParam", user.UserId);
+                NpgsqlParameter nameParam = new NpgsqlParameter("@nameParam", user.UserName);
+                NpgsqlParameter passParam = new NpgsqlParameter("@passParam", user.Password);
+                _command.Parameters.Add(idParam);
+                _command.Parameters.Add(nameParam);
+                _command.Parameters.Add(passParam);
                 _command.ExecuteNonQuery();
             }
             else
@@ -61,8 +78,11 @@ namespace DBObjectsClassLibrary.DataAccess
         {
             if (user.RoleId != 1)
             {
-                string command = $"delete from Users where UserId = {user.UserId};";
+                _command.Parameters.Clear();
+                string command = $"delete from Users where UserId = @idParam;";
                 _command.CommandText = command;
+                NpgsqlParameter idParam = new NpgsqlParameter("@idParam", user.UserId);
+                _command.Parameters.Add(idParam);
                 _command.ExecuteNonQuery();
             }
             else

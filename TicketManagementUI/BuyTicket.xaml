@@ -5,12 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TicketManagementUI"
         mc:Ignorable="d"
-        Title="BuyTicket" Height="295" Width="305">
+        Title="BuyTicket" Height="317" Width="305">
     <Grid>
-        <ComboBox x:Name="TypeSelectionBox" HorizontalAlignment="Center" Margin="0,91,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0" SelectionChanged="TypeSelectionBox_SelectionChanged"/>
-        <Label Content="Тип места" HorizontalAlignment="Center" Margin="0,40,0,0" VerticalAlignment="Top" Width="104" HorizontalContentAlignment="Center" FontSize="16"/>
-        <Button x:Name="BuyButton" Content="Купить" HorizontalAlignment="Center" Margin="0,189,0,0" VerticalAlignment="Top" Height="42" Width="104" Click="Button_Click" IsEnabled="False"/>
-        <ComboBox x:Name="PlaceSelectionBox" HorizontalAlignment="Center" VerticalAlignment="Top" Width="40" SelectedIndex="0" Height="33" Margin="0,140,0,0" SelectionChanged="PlaceSelectionBox_SelectionChanged" IsEnabled="False" />
+        <ComboBox x:Name="TypeSelectionBox" HorizontalAlignment="Center" Margin="0,76,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0" SelectionChanged="TypeSelectionBox_SelectionChanged"/>
+        <Label Content="Тип места" HorizontalAlignment="Center" Margin="0,25,0,0" VerticalAlignment="Top" Width="104" HorizontalContentAlignment="Center" FontSize="16"/>
+        <Button x:Name="BuyButton" Content="Купить" HorizontalAlignment="Center" Margin="0,214,0,0" VerticalAlignment="Top" Height="42" Width="104" Click="Button_Click" IsEnabled="False"/>
+        <ComboBox x:Name="PlaceSelectionBox" HorizontalAlignment="Center" VerticalAlignment="Top" Width="40" SelectedIndex="0" Height="33" Margin="0,166,0,0" SelectionChanged="PlaceSelectionBox_SelectionChanged" IsEnabled="False" />
+        <Label Content="Место" HorizontalAlignment="Center" Margin="0,122,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
 
     </Grid>
 </Window>

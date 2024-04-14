@@ -89,9 +89,9 @@ namespace TicketManagementUI
         {
             UserTicketsInfo.Visibility = Visibility.Visible;
             UserTicketsInfo.IsEnabled = true;
-            updateUserInterface();
+            UpdateUserInterface();
         }
-        void updateUserInterface()
+        void UpdateUserInterface()
         {
             _tickets = _ticketsManager.Read();
             TicketsDataDisplay.ItemsSource = _tickets.Where(t => t.UserId == _user.UserId).OrderBy(t => t.SpectacleName).ThenBy(t => t.TypeName).ThenBy(t => t.Place);
@@ -218,7 +218,7 @@ namespace TicketManagementUI
         {
              BuyTicket buyTicket = new BuyTicket(_user.UserId, ((Spectacle)MainDataDisplay.SelectedItem).SpectacleId);
              buyTicket.ShowDialog();
-             updateUserInterface();
+             UpdateUserInterface();
              UpdateCourierInterface();
         }
         private void ReturnTicketButton_Click(object sender, RoutedEventArgs e)
@@ -229,7 +229,8 @@ namespace TicketManagementUI
                 ticket = (Ticket)item;
                 _ticketsManager.Delete(ticket);
             }
-            updateUserInterface();
+            UpdateUserInterface();
+            UpdateCourierInterface();
             MessageBox.Show("Заказ(ы) успешно отменён(ы)!");
         }
         private void ConfrimOrderButton_Click(object sender, RoutedEventArgs e)
@@ -242,7 +243,7 @@ namespace TicketManagementUI
                 _ticketsManager.Update(ticket);
             }
             UpdateCourierInterface();
-            updateUserInterface();
+            UpdateUserInterface();
             MessageBox.Show("Заказ(ы) оформлены!");
         }
         private void DeleteUserButton_Click(object sender, RoutedEventArgs e)
@@ -263,7 +264,7 @@ namespace TicketManagementUI
             _spectacleManager.Delete((Spectacle)SpectaclesDataDisplay.SelectedItem);
             UpdateSpectaclesPanel();
             UpdateCourierInterface();
-            updateUserInterface();
+            UpdateUserInterface();
             CreateMainInterface();
             MessageBox.Show("Спектакль был успешно удалён из системы");
         }
