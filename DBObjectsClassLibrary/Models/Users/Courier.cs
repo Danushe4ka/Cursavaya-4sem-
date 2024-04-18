@@ -11,7 +11,7 @@ namespace DBObjectsClassLibrary.Models
     /// </summary>
     public class Courier:BaseUser
     {
-        public Courier(int userId, string userName, string password) : base(userId, 3, userName, password) { }
+        public Courier(string userName, string password) : base(userName, password) { }
         public override string Role { get => "Courier"; }
     }
 }

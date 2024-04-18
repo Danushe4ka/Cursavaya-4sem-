@@ -17,8 +17,8 @@ namespace DBObjectsClassLibrary.DataAccess
         {
             _command.Parameters.Clear();
             List<BaseUser> users = new List<BaseUser>();
-            _command.CommandText = "select * from Users order by @userId;";
-            NpgsqlParameter userParam = new NpgsqlParameter("@userId", "UserId");
+            _command.CommandText = "select * from Users order by @userName;";
+            NpgsqlParameter userParam = new NpgsqlParameter("@userName", "UserName");
             _command.Parameters.Add(userParam);
             NpgsqlDataReader reader = _command.ExecuteReader();
             if (reader.HasRows)
@@ -27,13 +27,13 @@ namespace DBObjectsClassLibrary.DataAccess
                     switch(reader.GetInt16(1))
                     {
                         case 1:
-                            users.Add(new Admin(reader.GetInt32(0), reader.GetString(2), reader.GetString(3)));
+                            users.Add(new Admin(reader.GetString(2), reader.GetString(3)));
                             break;
                         case 2:
-                            users.Add(new RegUser(reader.GetInt32(0), reader.GetString(2), reader.GetString(3)));
+                            users.Add(new RegUser(reader.GetString(2), reader.GetString(3)));
                             break;
                         case 3:
-                            users.Add(new Courier(reader.GetInt32(0), reader.GetString(2), reader.GetString(3)));
+                            users.Add(new Courier(reader.GetString(2), reader.GetString(3)));
                             break;
                         default:
                             throw new Exception("DB reader malfunction!");
@@ -47,7 +47,21 @@ namespace DBObjectsClassLibrary.DataAccess
             _command.Parameters.Clear();
             string command = $"insert into Users(RoleId, Username, Password) values (@roleParam, @nameParam, @passParam);";
             _command.CommandText = command;
-            NpgsqlParameter roleParam = new NpgsqlParameter("@roleParam", user.RoleId);
+            NpgsqlParameter roleParam;
+            switch (user.Role)
+            {
+                case "Admin":
+                    roleParam = new NpgsqlParameter("@roleParam", 1);
+                    break;
+                case "Courier":
+                    roleParam = new NpgsqlParameter("@roleParam", 3);
+                    break;
+                case "RegUser":
+                    roleParam = new NpgsqlParameter("@roleParam", 2);
+                    break;
+                default:
+                    throw new Exception("DB reader malfunction!");
+            }
             NpgsqlParameter nameParam = new NpgsqlParameter("@nameParam", user.UserName);
             NpgsqlParameter passParam = new NpgsqlParameter("@passParam", user.Password);
             _command.Parameters.Add(roleParam);
@@ -57,16 +71,14 @@ namespace DBObjectsClassLibrary.DataAccess
         }
         public override void Update(BaseUser user)
         {
-            if (user.RoleId != 1)
+            if (user.Role != "Admin")
             {
                 _command.Parameters.Clear();
                 string command = $"update Users set Username=@nameParam, Password=@passParam ";
-                command += $"where UserId = @idParam";
+                command += $"where UserName = @nameParam";
                 _command.CommandText = command;
-                NpgsqlParameter idParam = new NpgsqlParameter("@idParam", user.UserId);
                 NpgsqlParameter nameParam = new NpgsqlParameter("@nameParam", user.UserName);
                 NpgsqlParameter passParam = new NpgsqlParameter("@passParam", user.Password);
-                _command.Parameters.Add(idParam);
                 _command.Parameters.Add(nameParam);
                 _command.Parameters.Add(passParam);
                 _command.ExecuteNonQuery();
@@ -76,13 +88,13 @@ namespace DBObjectsClassLibrary.DataAccess
         }
         public override void Delete(BaseUser user)
         {
-            if (user.RoleId != 1)
+            if (user.Role != "Admin")
             {
                 _command.Parameters.Clear();
-                string command = $"delete from Users where UserId = @idParam;";
+                string command = $"delete from Users where UserName = @nameParam;";
                 _command.CommandText = command;
-                NpgsqlParameter idParam = new NpgsqlParameter("@idParam", user.UserId);
-                _command.Parameters.Add(idParam);
+                NpgsqlParameter nameParam = new NpgsqlParameter("@nameParam", user.UserName);
+                _command.Parameters.Add(nameParam);
                 _command.ExecuteNonQuery();
             }
             else

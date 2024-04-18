@@ -11,7 +11,7 @@ namespace DBObjectsClassLibrary.Models
     /// </summary>
     public class Admin:BaseUser
     {
-        public Admin(int userId, string userName, string password):base(userId, 1, userName, password) { }
+        public Admin(string userName, string password):base(userName, password) { }
         public override string Role { get => "Admin"; }
     }
 }

@@ -15,6 +15,7 @@ namespace DBObjectsClassLibrary.Utility
     /// </summary>
     public class ReportBuilder
     {
+        /*
         /// <summary>
         /// Метод создания полного отчёта о продажам
         /// </summary>
@@ -87,5 +88,6 @@ namespace DBObjectsClassLibrary.Utility
             }
             return report;
         }
+        */
     }   
 }
