@@ -1,5 +1,4 @@
 ﻿using DBObjectsClassLibrary.DataAccess;
-using DBObjectsClassLibrary.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,36 +20,41 @@ namespace TicketManagementUI
     /// </summary>
     public partial class TicketCategoryPrice : Window
     {
-        readonly TicketTypesManager ticketTypesManager = new TicketTypesManager();
-        List<TicketType> ticketTypes;
+        TicketTypesManager _ticketTypesManager = new TicketTypesManager();
         public TicketCategoryPrice()
         {
             InitializeComponent();
-            updateTicketTypes();
-        }
-        void updateTicketTypes()
-        {
-            ticketTypes = ticketTypesManager.Read();
-            TicketTypesData.ItemsSource = ticketTypes;
-            TicketTypesData.SelectedIndex = 0;
+            TypeChoosementBox.ItemsSource = _ticketTypesManager.GetTypeNames();
+            TypeChoosementBox.SelectedIndex = 0;
         }
 
-        private void TicketTypesData_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void TypeChoosementBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            TicketType type = (TicketType)TicketTypesData.SelectedItem;
-            if(type != null)
-                ChangedPriceBox.Text = type.TypeCost.ToString();
+            PriceBox.Text = _ticketTypesManager.GetTicketTypePrice(TypeChoosementBox.SelectedItem.ToString()).ToString();
         }
 
-        private void RedactButton_Click(object sender, RoutedEventArgs e)
+        private void ConfirmChangesButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                TicketType type = (TicketType)TicketTypesData.SelectedItem;
-                ticketTypesManager.Update(new TicketType(type.TypeId, type.TypeName, type.TypeAmount, Convert.ToDouble(ChangedPriceBox.Text)));
-                updateTicketTypes();
+                double price = Convert.ToDouble(PriceBox.Text);
+                _ticketTypesManager.ChangeTicketTypePrice(TypeChoosementBox.SelectedItem.ToString(), price);
+                this.Close();
             }
-            catch {MessageBox.Show("Неверный ввод цены на тип билета"); }
+            catch
+            {
+                MessageBox.Show("Неверный ввод данныйх\nОбратите внимание!\nДанные представлены в числовом виде");
+            }
+        }
+
+        private void PriceBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void PriceBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+
         }
     }
 }

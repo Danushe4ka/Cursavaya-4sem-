@@ -1,4 +1,5 @@
 ﻿using DBObjectsClassLibrary.DataAccess;
+using DBObjectsClassLibrary.Models.Tickets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace DBObjectsClassLibrary.Models
     /// <summary>
     /// Класс билета
     /// </summary>
-    public abstract class Ticket
+    public abstract class Ticket: ITicket
     {
         BaseUser _user;
         Spectacle _spectacle;
@@ -42,17 +43,33 @@ namespace DBObjectsClassLibrary.Models
         /// </summary>
         public Spectacle Spectacle {  get => _spectacle; }
         /// <summary>
-        /// Свойство для получения цены билета
-        /// </summary>
-        public double Cost { get => _cost; }
-        /// <summary>
         /// Свойство для получения номера места в зале
         /// </summary>
         public int Place { get => _place; }
         /// <summary>
+        /// Свойство для получения цены билеты
+        /// </summary>
+        public double Cost { get => GetCost(); }
+        /// <summary>
         /// Свойство для получения информации, оформлен ли билет
         /// </summary>
         public bool IsConfirmed { get => _isConfirmed; set => _isConfirmed = value; }
-        public abstract string Type { get; }
+        public string UserName { get => _user.UserName; }
+        /// <summary>
+        /// Свойство для получения типа билета
+        /// </summary>
+        public abstract string Type {  get; }
+        public abstract int PlaceAmount { get;protected set; }
+        public string SpectacleInformation { get => GetSpectacleInfo(); }
+        string GetSpectacleInfo()
+        {
+            string info;
+            info = $"'{_spectacle.SpectacleName}' жанр - <{_spectacle.Genre}> автор - <{_spectacle.SpectacleAuthor}> дата показа: {_spectacle.SpectacleDate}";
+            return info;
+        }
+        public virtual double GetCost()
+        {
+            return _cost;
+        }
     }
 }

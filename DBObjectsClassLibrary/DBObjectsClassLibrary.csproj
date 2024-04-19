@@ -98,6 +98,7 @@
     <Compile Include="DataAccess\IUpdate.cs" />
     <Compile Include="DataAccess\SpectaclesManager.cs" />
     <Compile Include="DataAccess\TicketsManager.cs" />
+    <Compile Include="DataAccess\TicketTypesManager.cs" />
     <Compile Include="DataAccess\UsersManager.cs" />
     <Compile Include="Models\Spectacles\ComedySpectacle.cs" />
     <Compile Include="Models\Spectacles\DramaSpectacle.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Models\Spectacles\TragedySpectacle.cs" />
     <Compile Include="Models\Tickets\AmphitheatreTicket.cs" />
     <Compile Include="Models\Tickets\BeletageTicket.cs" />
+    <Compile Include="Models\Tickets\ITicket.cs" />
     <Compile Include="Models\Tickets\ParterTicket.cs" />
     <Compile Include="Utility\DBConnectionManager.cs" />
     <Compile Include="Models\Users\Admin.cs" />

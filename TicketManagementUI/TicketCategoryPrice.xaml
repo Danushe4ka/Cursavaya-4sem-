@@ -5,18 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TicketManagementUI"
         mc:Ignorable="d"
-        Title="TicketCategoryPrice" Height="417" Width="259">
+        Title="TicketCategoryPrice" Height="326" Width="204">
     <Grid>
-        <ListView x:Name="TicketTypesData" SelectionMode="Single" Margin="32,32,32,149" SelectionChanged="TicketTypesData_SelectionChanged">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=TypeName}">Тип билета</GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=TypeCost}">Цена на тип</GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <Button x:Name="RedactButton" Content="Редактировать" HorizontalAlignment="Center" Margin="0,327,0,0" VerticalAlignment="Top" Click="RedactButton_Click"/>
-        <TextBox x:Name="ChangedPriceBox" HorizontalAlignment="Center" Margin="0,287,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-
+        <ComboBox x:Name="TypeChoosementBox" HorizontalAlignment="Center" Margin="0,38,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0" SelectionChanged="TypeChoosementBox_SelectionChanged"/>
+        <Button x:Name="ConfirmChangesButton" Content="Изменить" Canvas.Left="70" Canvas.Top="218" HorizontalAlignment="Center" VerticalAlignment="Top" Width="64" Margin="0,220,0,0" Click="ConfirmChangesButton_Click"/>
+        <TextBox x:Name="PriceBox" HorizontalAlignment="Center" Margin="0,137,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextAlignment="Center"/>
     </Grid>
 </Window>

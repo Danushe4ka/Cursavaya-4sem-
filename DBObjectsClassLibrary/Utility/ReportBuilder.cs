@@ -15,24 +15,21 @@ namespace DBObjectsClassLibrary.Utility
     /// </summary>
     public class ReportBuilder
     {
-        /*
+        SpectaclesManager _sm = new SpectaclesManager();
+        TicketsManager _tm = new TicketsManager();  
         /// <summary>
         /// Метод создания полного отчёта о продажам
         /// </summary>
         /// <returns>Полный отчёт по продажам в виде строки</returns>
         public string GetTotalSalesReport()
         {
-            TicketsManager tm = new TicketsManager();
-            TicketTypesManager ttm = new TicketTypesManager();
-            SpectaclesManager sm = new SpectaclesManager();
-            List<Spectacle> spectacles = sm.Read();
-            List<Ticket> tickets = tm.Read();
-            List<TicketType> ticketTypes = ttm.Read();
+            List<Spectacle> spectacles = _sm.Read();
+            List<Ticket> tickets = _tm.Read();
             double totalSales = 0;
             string report = $"Общая продажа билетов составляет за {spectacles.Count} спектаклей составляет: ";
-            foreach (TicketType ticketType in tickets.SelectMany(t => ticketTypes.Where(ticketType => t.TypeId == ticketType.TypeId)))
+            foreach (Ticket ticket in tickets)
             {
-                totalSales += ticketType.TypeCost;
+                totalSales += ticket.Cost;
             }
             report += totalSales + $" д.е. Билетов продано: {tickets.Count}";
             return report;
@@ -43,21 +40,19 @@ namespace DBObjectsClassLibrary.Utility
         /// <returns>Отчёт по продажам за каждый тип билета в виде строки</returns>
         public string GetSalesReportByTicketType()
         {
-            TicketsManager tm = new TicketsManager();
-            TicketTypesManager ttm = new TicketTypesManager();
-            List<Ticket> tickets = tm.Read();
-            List<TicketType> ticketTypes = ttm.Read();
+            List<Ticket> tickets = _tm.Read();
+            List<string> ticketTypes = new List<string>() { "Партер", "Амфитеатр", "Бельэтаж"};
             string report = "";
-            foreach (TicketType ticketType in ticketTypes)
+            foreach(string ticketType in ticketTypes)
             {
                 double price = 0;
                 double amount = 0;
-                foreach (Ticket ticket in tickets.Where(ticket => ticket.TypeId == ticketType.TypeId))
+                foreach (Ticket ticket in tickets.Where(t => t.Type == ticketType))
                 {
-                    price += ticketType.TypeCost;
+                    price += ticket.Cost;
                     amount++;
                 }
-                report += $"Продано {amount} билетов типа '{ticketType.TypeName}' на сумму {price} д.е.\n";
+                report += $"Продано {amount} билетов типа '{ticketType}' на сумму {price} д.е.\n";
             }
             return report;
         }
@@ -65,22 +60,18 @@ namespace DBObjectsClassLibrary.Utility
         /// Метод создания отчёта по продажам за каждый спектакль
         /// </summary>
         /// <returns>Отчёт по продажам за каждый спектакль в виде строки</returns>
-        public string GetSalseReportBySpectacle()
+        public string GetSalesReportBySpectacle()
         {
-            TicketsManager tm = new TicketsManager();
-            TicketTypesManager ttm = new TicketTypesManager();
-            SpectaclesManager sm = new SpectaclesManager();
-            List<Ticket> tickets = tm.Read();
-            List<TicketType> ticketTypes = ttm.Read();
-            List<Spectacle> spectacles = sm.Read();
+            List<Ticket> tickets = _tm.Read();
+            List<Spectacle> spectacles = _sm.Read();
             string report = "";
             foreach(Spectacle spectacle in spectacles)
             {
                 double price = 0;
                 double amount = 0;
-                foreach (TicketType ticketType in tickets.SelectMany(t => ticketTypes.Where(ticketType => t.TypeId == ticketType.TypeId && t.SpectacleID == spectacle.SpectacleId)))
+                foreach (Ticket ticket in tickets.Where(t => t.Spectacle.SpectacleDate == spectacle.SpectacleDate))
                 {
-                    price += ticketType.TypeCost;
+                    price += ticket.Cost;
                     amount++;
                 }
                 if(amount > 0)
@@ -88,6 +79,6 @@ namespace DBObjectsClassLibrary.Utility
             }
             return report;
         }
-        */
+        
     }   
 }

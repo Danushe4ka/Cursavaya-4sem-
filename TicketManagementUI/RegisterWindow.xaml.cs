@@ -44,10 +44,10 @@ namespace TicketManagementUI
                 switch(_isCourier)
                 {
                     case true:
-                       _usersManager.Create(new Courier(0, UserName.Text, UserPassword.Password));
+                       _usersManager.Create(new Courier(UserName.Text, UserPassword.Password));
                        break;
                     case false:
-                        _usersManager.Create(new RegUser(0, UserName.Text, UserPassword.Password));
+                        _usersManager.Create(new RegUser(UserName.Text, UserPassword.Password));
                         break;
                 }
                 this.Close();

@@ -12,10 +12,9 @@
         <Label x:Name="___Без_имени_" Content="Автор" HorizontalAlignment="Center" Margin="0,138,0,0" VerticalAlignment="Top" Width="94" HorizontalContentAlignment="Center"/>
         <TextBox x:Name="SpectacleAuthorBox" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Width="272" Height="30" Margin="0,200,0,0"/>
         <Label x:Name="___Без_имени__Копировать" Content="Жанр" HorizontalAlignment="Center" Margin="0,259,0,0" VerticalAlignment="Top" Width="94" HorizontalContentAlignment="Center"/>
-        <TextBox x:Name="SpectacleGenreBox" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Width="272" Height="30" Margin="0,318,0,0"/>
         <Label x:Name="___Без_имени__Копировать1" Content="Дата" HorizontalAlignment="Center" Margin="0,378,0,0" VerticalAlignment="Top" Width="94" HorizontalContentAlignment="Center"/>
-        <DatePicker x:Name="SpectacleDatePicker" HorizontalAlignment="Center" Margin="0,434,0,0" VerticalAlignment="Top" Width="146"/>
+        <DatePicker x:Name="SpectacleDatePicker" HorizontalAlignment="Center" Margin="0,424,0,0" VerticalAlignment="Top" Width="146"/>
         <Button x:Name="CreateSpectacleButton" Content="Создать" HorizontalAlignment="Center" Margin="0,501,0,0" VerticalAlignment="Top" Height="26" Width="94" Click="CreateSpectacleButton_Click"/>
-
+        <ComboBox x:Name="SpectacleGenreBox" HorizontalAlignment="Center" Margin="0,335,0,0" VerticalAlignment="Top" Width="244" Height="25" SelectedIndex="0"/>
     </Grid>
 </Window>

@@ -33,14 +33,13 @@ namespace TicketManagementUI
         bool _changeUser;
         readonly BaseUser _user;
         readonly SpectaclesManager _spectacleManager = new SpectaclesManager();
-        readonly TicketTypesManager _ticketTypesManager = new TicketTypesManager();
         readonly TicketsManager _ticketsManager = new TicketsManager();
         readonly UsersManager _usersManager = new UsersManager();
         readonly ReportBuilder _reportBuilder = new ReportBuilder();
         List<Spectacle> _spectacles;
-        List<TicketType> _ticketTypes;
         List<Ticket> _tickets;
         List<BaseUser> _users;
+        List <string> _ticketTypes;
         public MainWindow(BaseUser user)
         {
             try
@@ -48,18 +47,20 @@ namespace TicketManagementUI
                 _user = user;
                 InitializeComponent();
                 CreateMainInterface();
-                CreateUserInterface();
                 TicketBuyButton.Visibility = Visibility.Visible;
-                switch (user.RoleId)
+                switch (user.Role)
                 {
-                    case (1):
+                    case ("Admin"):
+                        CreateUserInterface();
                         CreateCourierInterface();
                         CreateAdminInterface();
                         break; 
-                    case (2):
-                        break;
-                    case (3):
+                    case ("Courier"):
+                        CreateUserInterface();
                         CreateCourierInterface();
+                        break;
+                    case ("RegUser"):
+                        CreateUserInterface();
                         break;
                     default:
                         throw new Exception("Ошибка типа пользователя, используется недействительная модель данных!");
@@ -75,15 +76,15 @@ namespace TicketManagementUI
         void CreateMainInterface()
         {
             _changeUser = false;
-            _ticketTypes = _ticketTypesManager.Read();
             _spectacles = _spectacleManager.Read();
             _tickets = _ticketsManager.Read();
             _users = _usersManager.Read();
+            _ticketTypes = new TicketTypesManager().GetTypeNames();
             MainDataDisplay.ItemsSource = _spectacles.OrderBy(s => s.SpectacleDate);
             MainDataDisplay.SelectedIndex = 0;
             DateChoosementBox.ItemsSource = _spectacles.Select(d => d.SpectacleDate.Date).Distinct().ToList();
-            GenreChoosementBox.ItemsSource = _spectacles.Select(g => g.SpectacleGenre).Distinct().ToList();
-            CategoryChoosementBox.ItemsSource = _ticketTypes.Select(t => t.TypeName).Distinct().ToList();
+            GenreChoosementBox.ItemsSource = _spectacles.Select(g => g.Genre).Distinct().ToList();
+            CategoryChoosementBox.ItemsSource = _ticketTypes;
         }
         void CreateUserInterface()
         {
@@ -94,7 +95,7 @@ namespace TicketManagementUI
         void UpdateUserInterface()
         {
             _tickets = _ticketsManager.Read();
-            TicketsDataDisplay.ItemsSource = _tickets.Where(t => t.UserId == _user.UserId).OrderBy(t => t.SpectacleName).ThenBy(t => t.TypeName).ThenBy(t => t.Place);
+            TicketsDataDisplay.ItemsSource = _tickets.Where(t => t.User.UserName == _user.UserName).OrderBy(t => t.IsConfirmed).ThenBy(t => t.Spectacle.SpectacleName);
             TicketsDataDisplay.SelectedIndex = 0;
             if(TicketsDataDisplay.SelectedItem == null)
                 ReturnTicketButton.IsEnabled = false;
@@ -110,7 +111,7 @@ namespace TicketManagementUI
         void UpdateCourierInterface()
         {
             _tickets = _ticketsManager.Read();
-            OrdersDataDisplay.ItemsSource = _tickets.Where(t => t.IsConfirmed == false).OrderBy(t => t.UserName).ThenBy(t => t.SpectacleName).ThenBy(t => t.TypeName).ThenBy(t => t.Place);
+            OrdersDataDisplay.ItemsSource = _tickets.Where(t => t.IsConfirmed == false).OrderBy(t => t.User.UserName).ThenBy(t => t.Spectacle.SpectacleName);
             OrdersDataDisplay.SelectedIndex = 0;
             if (OrdersDataDisplay.SelectedItem == null)
                 ConfrimOrderButton.IsEnabled = false;
@@ -131,7 +132,7 @@ namespace TicketManagementUI
         void UpdateUsersPanel()
         {
             _users = _usersManager.Read();
-            UsersDataDisplay.ItemsSource = _users.Where(p => p.RoleId != 1).OrderBy(p => p.Role);
+            UsersDataDisplay.ItemsSource = _users.Where(p => p.Role != "Admin").OrderBy(p => p.Role);
             UsersDataDisplay.SelectedIndex = 0;
             if (UsersDataDisplay.SelectedItem == null)
                 DeleteUserButton.IsEnabled = false;
@@ -168,36 +169,34 @@ namespace TicketManagementUI
         }
         private void ChooseDateButton_Click(object sender, RoutedEventArgs e)
         {
-            MainDataDisplay.ItemsSource = _spectacles.Where(s => s.SpectacleDate.Date == Convert.ToDateTime(DateChoosementBox.SelectionBoxItem).Date);
+            MainDataDisplay.ItemsSource = _spectacles.Where(s => s.SpectacleDate.Date == Convert.ToDateTime(DateChoosementBox.SelectionBoxItem).Date).OrderBy(s => s.SpectacleDate);
             MainDataDisplay.SelectedIndex = 0;
         }
 
         private void ChooseGenreButton_Click(object sender, RoutedEventArgs e)
         {
-            MainDataDisplay.ItemsSource = _spectacles.Where(s => s.SpectacleGenre == GenreChoosementBox.SelectionBoxItem.ToString());
+            MainDataDisplay.ItemsSource = _spectacles.Where(s => s.Genre == GenreChoosementBox.SelectionBoxItem.ToString()).OrderBy(s => s.SpectacleDate);
             MainDataDisplay.SelectedIndex = 0;
         }
         private void ChooseCategoryButton_Click(object sender, RoutedEventArgs e)
         {
-            List<Spectacle> enabledItems = _spectacles.ToList();
-            TicketType ticketType = null;
-            foreach (TicketType type in _ticketTypes)
-                if (type.TypeName == CategoryChoosementBox.SelectionBoxItem.ToString())
-                    ticketType = type;
-            int amountOfPlaces = ticketType.TypeAmount;
+            List<Spectacle> enabledItems = _spectacles;
+            string ticketType = CategoryChoosementBox.SelectedValue.ToString();
+            int amountOfPlaces = new TicketTypesManager().GetTicketTypePlaceAmount(ticketType);
             foreach (Spectacle spectacle in _spectacles.ToList())
             {
                 int blockedPlaces = 0;
                 for (int i = 1; i <= amountOfPlaces; i++)
                 {
-                    foreach (Ticket ticket in _tickets.Where(t => t.TypeId == ticketType.TypeId && t.SpectacleID == spectacle.SpectacleId && t.Place == i))
+                    foreach (Ticket ticket in _tickets.Where(t => t.Type == ticketType && t.Spectacle.SpectacleDate == spectacle.SpectacleDate && t.Place == i))
                         blockedPlaces++;
                 }
                 if(blockedPlaces == amountOfPlaces)
                     enabledItems.Remove(spectacle);
             }
-            MainDataDisplay.ItemsSource = enabledItems;
+            MainDataDisplay.ItemsSource = enabledItems.OrderBy(s => s.SpectacleDate);
             MainDataDisplay.SelectedIndex = 0;
+            _spectacles = _spectacleManager.Read();
         }
 
         private void GenreChoosementBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -216,7 +215,7 @@ namespace TicketManagementUI
 
         private void TicketBuyButton_Click(object sender, RoutedEventArgs e)
         {
-             BuyTicket buyTicket = new BuyTicket(_user.UserId, ((Spectacle)MainDataDisplay.SelectedItem).SpectacleId);
+             BuyTicket buyTicket = new BuyTicket(_user, ((Spectacle)MainDataDisplay.SelectedItem));
              buyTicket.ShowDialog();
              UpdateUserInterface();
              UpdateCourierInterface();
@@ -236,7 +235,7 @@ namespace TicketManagementUI
         private void ConfrimOrderButton_Click(object sender, RoutedEventArgs e)
         {
             Ticket ticket;
-            foreach(var item  in OrdersDataDisplay.SelectedItems)
+            foreach(var item in OrdersDataDisplay.SelectedItems)
             {
                 ticket = (Ticket)item;
                 ticket.IsConfirmed = true;
@@ -279,7 +278,8 @@ namespace TicketManagementUI
         {
             TicketCategoryPrice ticketCategoryPrice = new TicketCategoryPrice();
             ticketCategoryPrice.ShowDialog();
-            _ticketTypes = _ticketTypesManager.Read();
+            _tickets = _ticketsManager.Read();
+            UpdateUserInterface();
         }
         public void CreateMainReport_Click(object sender, RoutedEventArgs e)
         {
@@ -291,7 +291,7 @@ namespace TicketManagementUI
         }
         public void CreateSpectaclesReport_Click(object sender, RoutedEventArgs e)
         {
-            ReportsDisplay.Text = _reportBuilder.GetSalseReportBySpectacle();
+            ReportsDisplay.Text = _reportBuilder.GetSalesReportBySpectacle();
         }
         public void SaveReportButton_Click(object sender, RoutedEventArgs e)
         {

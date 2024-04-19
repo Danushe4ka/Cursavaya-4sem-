@@ -8,7 +8,11 @@ namespace DBObjectsClassLibrary.Models.Tickets
 {
     public class ParterTicket:Ticket
     {
-        public ParterTicket(BaseUser user, Spectacle spectacle, double cost, int place) : base(user, spectacle, cost, place) { }
+        public ParterTicket(BaseUser user, Spectacle spectacle, double cost, int place, int amount, bool isConfirmed = false) : base(user, spectacle, cost, place, isConfirmed)
+        {
+            PlaceAmount = amount;
+        }
         public override string Type { get => "Партер"; }
+        public override int PlaceAmount { get; protected set; }
     }
 }

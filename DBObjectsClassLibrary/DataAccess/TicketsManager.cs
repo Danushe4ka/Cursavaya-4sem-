@@ -29,17 +29,17 @@ namespace DBObjectsClassLibrary.DataAccess
                 while (reader.Read())
                 {
                     var user = users.Find(t => t.UserName == reader.GetString(0));
-                    var spectacle = spectacles.Find(s => s.SpectacleName == reader.GetString(1));
+                    var spectacle = spectacles.Find(s => s.SpectacleDate == reader.GetDateTime(1));
                     switch (reader.GetString(2))
                     {
                         case "Партер":
-                            tickets.Add(new ParterTicket(user, spectacle, Convert.ToDouble(reader.GetDecimal(3)),reader.GetInt32(4)));
+                            tickets.Add(new ParterTicket(user, spectacle, Convert.ToDouble(reader.GetDecimal(3)),reader.GetInt32(4),reader.GetInt32(5), reader.GetBoolean(6)));
                             break;
                         case "Амфитеатр":
-                            tickets.Add(new AmphitheatreTicket(user, spectacle, Convert.ToDouble(reader.GetDecimal(3)), reader.GetInt32(4)));
+                            tickets.Add(new AmphitheatreTicket(user, spectacle, Convert.ToDouble(reader.GetDecimal(3)), reader.GetInt32(4), reader.GetInt32(5), reader.GetBoolean(6)));
                             break;
                         case "Бельэтаж":
-                            tickets.Add(new BeletageTicket(user, spectacle, Convert.ToDouble(reader.GetDecimal(3)), reader.GetInt32(4)));
+                            tickets.Add(new BeletageTicket(user, spectacle, Convert.ToDouble(reader.GetDecimal(3)), reader.GetInt32(4), reader.GetInt32(5), reader.GetBoolean(6)));
                             break;
                         default:
                             throw new Exception("DB reader malfunction!");
@@ -54,7 +54,7 @@ namespace DBObjectsClassLibrary.DataAccess
             string command = $"select GetUserId('{ticket.User.UserName}')";
             _command.CommandText = command;
             int userId = Convert.ToInt32(_command.ExecuteScalar());
-            command = $"select GetUserId('{ticket.Spectacle.SpectacleDate}')";
+            command = $"select GetSpectacleId('{ticket.Spectacle.SpectacleDate}')";
             _command.CommandText = command;
             int spectacleId = Convert.ToInt32(_command.ExecuteScalar());
             command = $"insert into Tickets(UserId, SpectacleId, TypeId, Place) values(@userParam, @specParam, @typeParam, @placeParam);";
@@ -89,7 +89,7 @@ namespace DBObjectsClassLibrary.DataAccess
             string command = $"select GetUserId('{ticket.User.UserName}')";
             _command.CommandText = command;
             int userId = Convert.ToInt32(_command.ExecuteScalar());
-            command = $"select GetUserId('{ticket.Spectacle.SpectacleDate}')";
+            command = $"select GetSpectacleId('{ticket.Spectacle.SpectacleDate}')";
             _command.CommandText = command;
             int spectacleId = Convert.ToInt32(_command.ExecuteScalar());
             command = $"update Tickets set IsTicketConfirmed='{ticket.IsConfirmed}' ";
@@ -125,7 +125,7 @@ namespace DBObjectsClassLibrary.DataAccess
             string command = $"select GetUserId('{ticket.User.UserName}')";
             _command.CommandText = command;
             int userId = Convert.ToInt32(_command.ExecuteScalar());
-            command = $"select GetUserId('{ticket.Spectacle.SpectacleDate}')";
+            command = $"select GetSpectacleId('{ticket.Spectacle.SpectacleDate}')";
             _command.CommandText = command;
             int spectacleId = Convert.ToInt32(_command.ExecuteScalar());
             command = $"delete from Tickets ";
@@ -153,16 +153,6 @@ namespace DBObjectsClassLibrary.DataAccess
             _command.Parameters.Add(specParam);
             _command.Parameters.Add(typeParam);
             _command.Parameters.Add(placeParam);
-            _command.ExecuteNonQuery();
-        }
-        public void ChangeTicketTypePrice(string typeName,double price)
-        {
-            _command.Parameters.Clear();
-            string command = $"update TicketTypes set TypeCost={price.ToString().Replace(',','.')} ";
-            command += $"where TypeName = @nameParam";
-            _command.CommandText = command;
-            NpgsqlParameter nameParam = new NpgsqlParameter("@nameParam", typeName);
-            _command.Parameters.Add(nameParam);
             _command.ExecuteNonQuery();
         }
     }

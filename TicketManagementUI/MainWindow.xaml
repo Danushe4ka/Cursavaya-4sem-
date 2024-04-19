@@ -21,7 +21,7 @@
                         <GridView>
                             <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleName}">Название спектакля</GridViewColumn>
                             <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleAuthor}">Автор спектакля</GridViewColumn>
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleGenre}">Жанр спектакля</GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Genre}">Жанр спектакля</GridViewColumn>
                             <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleDate}">Дата и время спектакля</GridViewColumn>
                         </GridView>
                     </ListView.View>
@@ -42,9 +42,9 @@
                     <ListView x:Name="TicketsDataDisplay" Margin="46,34,48,161">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleName}">Название спектакля</GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleAdditionalInformation}">Информация о спектакле</GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=TypeName}">Тип билета</GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleInformation}">Информация о спектакле</GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Type}">Тип билета</GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Cost}">Стоимость</GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Place}">Место</GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=IsConfirmed}">Доставлен</GridViewColumn>
                             </GridView>
@@ -59,10 +59,9 @@
                     <ListView x:Name="OrdersDataDisplay" Margin="46,34,48,161">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleName}">Название спектакля</GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=UserName}">Имя пользователя</GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleAdditionalInformation}">Информация о спектакле</GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=TypeName}">Тип билета</GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=UserName}">Владелец билета</GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleInformation}">Информация о спектакле</GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Type}">Тип билета</GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Place}">Место</GridViewColumn>
                             </GridView>
                         </ListView.View>
@@ -92,7 +91,7 @@
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleName}">Название спектакля</GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleAuthor}">Автор спектакля</GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleGenre}">Жанр спектакля</GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Genre}">Жанр спектакля</GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleDate}">Дата и время спектакля</GridViewColumn>
                             </GridView>
                         </ListView.View>
