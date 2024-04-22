@@ -28,9 +28,11 @@ namespace DBObjectsClassLibrary.DataAccess
         public TicketTypesManager()
         {
             _connection = DBConnectionManager.GetInstance.Connection;
-            _command = new NpgsqlCommand();
-            _command.Connection = _connection;
-            _command.CommandType = System.Data.CommandType.Text;
+            _command = new NpgsqlCommand
+            {
+                Connection = _connection,
+                CommandType = System.Data.CommandType.Text
+            };
         }
         public List<string> GetTypeNames()
         {

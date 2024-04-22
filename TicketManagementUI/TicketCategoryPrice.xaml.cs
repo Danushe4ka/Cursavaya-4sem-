@@ -20,7 +20,7 @@ namespace TicketManagementUI
     /// </summary>
     public partial class TicketCategoryPrice : Window
     {
-        TicketTypesManager _ticketTypesManager = new TicketTypesManager();
+        readonly TicketTypesManager _ticketTypesManager = new TicketTypesManager();
         public TicketCategoryPrice()
         {
             InitializeComponent();
@@ -48,11 +48,6 @@ namespace TicketManagementUI
         }
 
         private void PriceBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void PriceBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
 
         }

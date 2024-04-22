@@ -19,11 +19,11 @@ namespace DBObjectsClassLibrary
         /// <summary>
         /// Поле строки подключения
         /// </summary>
-        string _sqlCon = "Server=localhost;Port=5432;Database=TicketManagementSystem;User Id = postgres; Password=2288;";
+        readonly string _sqlCon = "Server=localhost;Port=5432;Database=TicketManagementSystem;User Id = postgres; Password=2288;";//qy5k--zhr8a98L
         /// <summary>
         /// Поле экземпляра подключения к базе данных
         /// </summary>
-        NpgsqlConnection _connection;
+        readonly NpgsqlConnection _connection;
         /// <summary>
         /// Конструктор класса DBConnectionManager
         /// </summary>

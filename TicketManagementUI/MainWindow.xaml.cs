@@ -295,8 +295,10 @@ namespace TicketManagementUI
         }
         public void SaveReportButton_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Text files(*.txt)|*.txt|All files(*.*)|*.*";
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "Text files(*.txt)|*.txt|All files(*.*)|*.*"
+            };
             if (saveFileDialog.ShowDialog() != false)
             {
                 string fileName = saveFileDialog.FileName;
