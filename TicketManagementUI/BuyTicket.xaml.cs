@@ -53,6 +53,8 @@ namespace TicketManagementUI
                 PlaceSelectionBox.IsEnabled = true;
                 PlaceSelectionBox.SelectedItem = SelectedTypeFreePlaces()[0];
                 PlaceSelectionBox.ItemsSource = SelectedTypeFreePlaces();
+                UpdatePlaces();
+                UpdatePlaceVisualization();
             }
             else
             {
@@ -61,34 +63,16 @@ namespace TicketManagementUI
                 UpdatePlaces();
             }
         }
-        private List<int> SelectedTypeFreePlaces()
+        private void PlaceSelectionBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string ticketType = TypeSelectionBox.SelectedItem.ToString();
-            int amountOfPlaces = _typesManager.GetTicketTypePlaceAmount(ticketType);
-            List<int> places = new List<int>();
-            for (int i = 1; i <= amountOfPlaces; i++)
+            if (SelectedTypeFreePlaces().Count > 0)
             {
-                bool isReq = true;
-                foreach (Ticket ticket in _tickets.Where(t => t.Type == ticketType && t.Spectacle.SpectacleDate == _spectacle.SpectacleDate && t.Place == i))
-                    isReq = false;
-                if(isReq)
-                    places.Add(i);
+                BuyButton.IsEnabled = true;
+                UpdatePlaces();
+                UpdatePlaceVisualization();
             }
-            return places;
-        }
-        private void UpdateTheatrePlaces()
-        {
-            for(int i = 1; i <= 25; i++)
-                foreach (Ticket ticket in _tickets.Where(t => t.Spectacle.SpectacleDate == _spectacle.SpectacleDate && t.Place == i && t.Type == "Партер" && ParterPlaces.Children[i - 1] != null))
-                    ParterPlaces.Children[i - 1].Opacity = 0.2;
-            for (int i = 1; i <= 10; i++)
-                foreach (Ticket ticket in _tickets.Where(t => t.Spectacle.SpectacleDate == _spectacle.SpectacleDate && t.Place == i))
-                {
-                    if (AmphitheatrePlaces.Children[i - 1] != null && ticket.Type == "Амфитеатр")
-                        AmphitheatrePlaces.Children[i - 1].Opacity = 0.2;
-                    else if (BeletagePlaces.Children[i - 1] != null && ticket.Type == "Бельэтаж")
-                        BeletagePlaces.Children[i - 1].Opacity = 0.2;
-                }
+            else
+                BuyButton.IsEnabled = false;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -128,40 +112,61 @@ namespace TicketManagementUI
                 MessageBox.Show(ex.Message);
             }
         }
-
-        private void PlaceSelectionBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private List<int> SelectedTypeFreePlaces()
         {
-            if(SelectedTypeFreePlaces().Count > 0)
+            string ticketType = TypeSelectionBox.SelectedItem.ToString();
+            int amountOfPlaces = _typesManager.GetTicketTypePlaceAmount(ticketType);
+            List<int> places = new List<int>();
+            for (int i = 1; i <= amountOfPlaces; i++)
             {
-                BuyButton.IsEnabled = true;
-                int selectedIndex = Convert.ToInt32(PlaceSelectionBox.SelectedItem) - 1;
-                UpdatePlaces();
-                switch (TypeSelectionBox.SelectedItem.ToString())
-                {
-                    case "Партер":
-                        Label selectedLabel = (Label)ParterPlaces.Children[selectedIndex];
-                        selectedLabel.Background = Brushes.Aquamarine;
-                        ParterPlaces.Children[selectedIndex] = selectedLabel;
-                        _lastSelectedPlacePt = selectedIndex;
-                    break;
-                    case "Амфитеатр":
-                        
-                        Label selectedLabelA = (Label)AmphitheatrePlaces.Children[selectedIndex];
-                        selectedLabelA.Background = Brushes.CornflowerBlue;
-                        AmphitheatrePlaces.Children[selectedIndex] = selectedLabelA;
-                        _lastSelectedPlaceAm = selectedIndex;
-                        break;
-                    case "Бельэтаж":
-                        
-                        Label selectedLabelB = (Label)BeletagePlaces.Children[selectedIndex];
-                        selectedLabelB.Background = Brushes.Blue;
-                        BeletagePlaces.Children[selectedIndex] = selectedLabelB;
-                        _lastSelectedPlaceBl = selectedIndex;
-                        break;
-                }
+                bool isReq = true;
+                foreach (Ticket ticket in _tickets.Where(t => t.Type == ticketType && t.Spectacle.SpectacleDate == _spectacle.SpectacleDate && t.Place == i))
+                    isReq = false;
+                if (isReq)
+                    places.Add(i);
             }
-            else
-                BuyButton.IsEnabled = false;
+            return places;
+        }
+        private void UpdateTheatrePlaces()
+        {
+            for (int i = 1; i <= 25; i++)
+                foreach (Ticket ticket in _tickets.Where(t => t.Spectacle.SpectacleDate == _spectacle.SpectacleDate && t.Place == i && t.Type == "Партер" && ParterPlaces.Children[i - 1] != null))
+                    ParterPlaces.Children[i - 1].Opacity = 0.2;
+            for (int i = 1; i <= 10; i++)
+                foreach (Ticket ticket in _tickets.Where(t => t.Spectacle.SpectacleDate == _spectacle.SpectacleDate && t.Place == i))
+                {
+                    if (AmphitheatrePlaces.Children[i - 1] != null && ticket.Type == "Амфитеатр")
+                        AmphitheatrePlaces.Children[i - 1].Opacity = 0.2;
+                    else if (BeletagePlaces.Children[i - 1] != null && ticket.Type == "Бельэтаж")
+                        BeletagePlaces.Children[i - 1].Opacity = 0.2;
+                }
+        }
+        private void UpdatePlaceVisualization()
+        {
+            int selectedIndex = Convert.ToInt32(PlaceSelectionBox.SelectedItem) - 1;
+            switch (TypeSelectionBox.SelectedItem.ToString())
+            {
+                case "Партер":
+                    Label selectedLabel = (Label)ParterPlaces.Children[selectedIndex];
+                    selectedLabel.Background = Brushes.Aquamarine;
+                    ParterPlaces.Children[selectedIndex] = selectedLabel;
+                    _lastSelectedPlacePt = selectedIndex;
+                    break;
+                case "Амфитеатр":
+
+                    Label selectedLabelA = (Label)AmphitheatrePlaces.Children[selectedIndex];
+                    selectedLabelA.Background = Brushes.CornflowerBlue;
+                    AmphitheatrePlaces.Children[selectedIndex] = selectedLabelA;
+                    _lastSelectedPlaceAm = selectedIndex;
+                    break;
+                case "Бельэтаж":
+
+                    Label selectedLabelB = (Label)BeletagePlaces.Children[selectedIndex];
+                    selectedLabelB.Background = Brushes.Blue;
+                    BeletagePlaces.Children[selectedIndex] = selectedLabelB;
+                    _lastSelectedPlaceBl = selectedIndex;
+                    break;
+            }
         }
         private void UpdatePlaces()
         {
