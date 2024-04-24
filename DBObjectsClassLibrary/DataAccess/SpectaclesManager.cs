@@ -2,16 +2,7 @@
 using DBObjectsClassLibrary.Models.Spectacles;
 using Npgsql;
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Data;
-using System.Data.Common;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Net.Configuration;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DBObjectsClassLibrary.DataAccess
 {

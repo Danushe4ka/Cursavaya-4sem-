@@ -1,10 +1,4 @@
-﻿using DBObjectsClassLibrary.DataAccess;
-using DBObjectsClassLibrary.Models.Tickets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DBObjectsClassLibrary.Models.Tickets;
 
 namespace DBObjectsClassLibrary.Models
 {
@@ -54,13 +48,26 @@ namespace DBObjectsClassLibrary.Models
         /// Свойство для получения информации, оформлен ли билет
         /// </summary>
         public bool IsConfirmed { get => _isConfirmed; set => _isConfirmed = value; }
+        /// <summary>
+        /// Свойство для получения имени покупателя билета
+        /// </summary>
         public string UserName { get => _user.UserName; }
         /// <summary>
         /// Свойство для получения типа билета
         /// </summary>
         public abstract string Type {  get; }
+        /// <summary>
+        /// Свойство для получения количества мест билета данного типа
+        /// </summary>
         public abstract int PlaceAmount { get;protected set; }
+        /// <summary>
+        /// Свойство для получения информации о спектакле
+        /// </summary>
         public string SpectacleInformation { get => GetSpectacleInfo(); }
+        /// <summary>
+        /// Метод получения информации о спектакле
+        /// </summary>
+        /// <returns>Имя,жанр,автор и дата показа спектакля в виде строки</returns>
         string GetSpectacleInfo()
         {
             string info;

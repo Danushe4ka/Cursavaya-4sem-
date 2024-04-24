@@ -1,9 +1,5 @@
 ﻿using Npgsql;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Configuration;
 
 namespace DBObjectsClassLibrary
 {
@@ -19,7 +15,7 @@ namespace DBObjectsClassLibrary
         /// <summary>
         /// Поле строки подключения
         /// </summary>
-        readonly string _sqlCon = "Server=localhost;Port=5432;Database=TicketManagementSystem;User Id = postgres; Password=2288;";//qy5k--zhr8a98L
+        readonly string _sqlCon = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;//qy5k--zhr8a98L
         /// <summary>
         /// Поле экземпляра подключения к базе данных
         /// </summary>

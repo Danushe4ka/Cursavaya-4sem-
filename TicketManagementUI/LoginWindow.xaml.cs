@@ -2,18 +2,8 @@
 using DBObjectsClassLibrary.DataAccess;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace TicketManagementUI
 {
@@ -24,12 +14,18 @@ namespace TicketManagementUI
     {
         readonly UsersManager _usersManager;
         List<BaseUser> _users;
+        /// <summary>
+        /// Конструктор класса-окна входа
+        /// </summary>
         public LoginWindow()
         {
             _usersManager = new UsersManager();
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Кнопка входа в систему
+        /// </summary>
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             _users = _usersManager.Read();
@@ -55,21 +51,27 @@ namespace TicketManagementUI
                 MessageBox.Show(ex.Message);
             }
         }
-
+        /// <summary>
+        /// Кнопка входа в систему как гость
+        /// </summary>
         private void GuestButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
             this.Close();
         }
-
+        /// <summary>
+        /// Кнопка перехода в окно регистрации
+        /// </summary>
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
             _users = _usersManager.Read();
             RegisterWindow registerWindow = new RegisterWindow(false);
             registerWindow.ShowDialog();
         }
-
+        /// <summary>
+        /// Обработчик события изменения текста в поле ввода имения для исключения ввода символа ' '
+        /// </summary>
         private void UserName_TextChanged(object sender, TextChangedEventArgs e)
         {
             UserName.Text = UserName.Text.Replace(" ", string.Empty);

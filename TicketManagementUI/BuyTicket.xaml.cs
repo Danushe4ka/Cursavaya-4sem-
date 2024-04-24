@@ -4,21 +4,10 @@ using DBObjectsClassLibrary.Models;
 using DBObjectsClassLibrary.Models.Tickets;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
-using System.Net.Sockets;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace TicketManagementUI
 {
@@ -39,6 +28,11 @@ namespace TicketManagementUI
         List<int> _amphitheatreSelectedPlaces = new List<int>();
         List<int> _beletageFreePlaces;
         List<int> _beletageSelectedPlaces = new List<int>();
+        /// <summary>
+        /// Конструктор класса-окна покупки билета
+        /// </summary>
+        /// <param name="user">Пользователь</param>
+        /// <param name="spectacle">Спектакль</param>
         public BuyTicket(BaseUser user, Spectacle spectacle)
         {
             _user = user;
@@ -50,7 +44,9 @@ namespace TicketManagementUI
             InitializeComponent();
             UpdateTheatrePlaces();
         }
-
+        /// <summary>
+        /// Кнопка перехода в окно покупки выбранных мест
+        /// </summary>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var tickets = new List<Ticket>();
@@ -64,6 +60,11 @@ namespace TicketManagementUI
             ticketsBin.ShowDialog();
             this.Close();
         }
+        /// <summary>
+        /// Метод получения свободных мест по типу в виде списка целых чисел
+        /// </summary>
+        /// <param name="ticketType">Наименование типа</param>
+        /// <returns>Список целых чисел(свободных мест)</returns>
         private List<int> FreePlacesByType(string ticketType)
         {
             int amountOfPlaces = _typesManager.GetTicketTypePlaceAmount(ticketType);
@@ -78,6 +79,9 @@ namespace TicketManagementUI
             }
             return places;
         }
+        /// <summary>
+        /// Метод для сокрытия уже купленных мест
+        /// </summary>
         private void UpdateTheatrePlaces()
         {
             for (int i = 1; i <= 25; i++)
@@ -101,6 +105,9 @@ namespace TicketManagementUI
                     }
                 }
         }
+        /// <summary>
+        /// Метод выбора места типа Партер
+        /// </summary>
         private void ParterButton_Click(object sender, RoutedEventArgs e)
         {
             int place = Convert.ToInt32(((Button)sender).Content);
@@ -118,7 +125,9 @@ namespace TicketManagementUI
                     BuyButton.IsEnabled = false;
             }
         }
-
+        /// <summary>
+        /// Метод выбора места типа Амфитеатр
+        /// </summary>
         private void AmphyButton_Click(object sender, RoutedEventArgs e)
         {
             int place = Convert.ToInt32(((Button)sender).Content);
@@ -136,7 +145,9 @@ namespace TicketManagementUI
                     BuyButton.IsEnabled = false;
             }
         }
-
+        /// <summary>
+        /// Метод выбора места типа Бельэтаж
+        /// </summary>
         private void BeletageButton_Click(object sender, RoutedEventArgs e)
         {
             int place = Convert.ToInt32(((Button)sender).Content);
@@ -154,6 +165,10 @@ namespace TicketManagementUI
                     BuyButton.IsEnabled = false;
             }
         }
+        /// <summary>
+        /// Определяет, выбран ли хоть один билет
+        /// </summary>
+        /// <returns>False,если ни одного места не выбрано.Иначе True</returns>
         private bool IsAnyTicketSelected()
         {
             bool isSelected = true;

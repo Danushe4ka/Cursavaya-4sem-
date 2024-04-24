@@ -1,17 +1,12 @@
-﻿using DBObjectsClassLibrary.Models.Tickets;
-using DBObjectsClassLibrary.Models;
-using Npgsql;
+﻿using Npgsql;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
-using System.Diagnostics;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DBObjectsClassLibrary.DataAccess
 {
+    /// <summary>
+    /// Класс-менеджер типов билетов
+    /// </summary>
     public class TicketTypesManager
     {
         /// <summary>
@@ -34,6 +29,10 @@ namespace DBObjectsClassLibrary.DataAccess
                 CommandType = System.Data.CommandType.Text
             };
         }
+        /// <summary>
+        /// Метод получения наименований типов билетов
+        /// </summary>
+        /// <returns>Наименования типов билетов в виде строки</returns>
         public List<string> GetTypeNames()
         {
             _command.Parameters.Clear();
@@ -49,6 +48,11 @@ namespace DBObjectsClassLibrary.DataAccess
             reader.Close();
             return types;
         }
+        /// <summary>
+        /// Метод изменения цены на тип билета
+        /// </summary>
+        /// <param name="typeName">Наименование типа</param>
+        /// <param name="price">Новая стоимость</param>
         public void ChangeTicketTypePrice(string typeName, double price)
         {
             _command.Parameters.Clear();
@@ -59,6 +63,11 @@ namespace DBObjectsClassLibrary.DataAccess
             _command.Parameters.Add(nameParam);
             _command.ExecuteNonQuery();
         }
+        /// <summary>
+        /// Метод получения количества мест билета по типу
+        /// </summary>
+        /// <param name="typeName">Наименование типа</param>
+        /// <returns>Количество мест в виде целого числа</returns>
         public int GetTicketTypePlaceAmount(string typeName)
         {
             _command.Parameters.Clear();
@@ -67,6 +76,11 @@ namespace DBObjectsClassLibrary.DataAccess
             int typeAmount = Convert.ToInt32(_command.ExecuteScalar());
             return typeAmount;
         }
+        /// <summary>
+        /// Метод получения цены билета по типу
+        /// </summary>
+        /// <param name="typeName">Наименование типа</param>
+        /// <returns>Цену на тип в виде вещественного числа</returns>
         public double GetTicketTypePrice(string typeName)
         {
             _command.Parameters.Clear();

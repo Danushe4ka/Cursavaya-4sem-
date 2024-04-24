@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DBObjectsClassLibrary.Models.Spectacles
 {
+    /// <summary>
+    /// Класс спектакля жанра комедия
+    /// </summary>
     public class ComedySpectacle:Spectacle
     {
         public ComedySpectacle(string spectacleName, string spectacleAuthor, DateTime spectacleDate) : base(spectacleName, spectacleAuthor, spectacleDate) { }

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace DBObjectsClassLibrary.Models
 {
+    /// <summary>
+    /// Класс билета типа бельэтаж
+    /// </summary>
     public class BeletageTicket:Ticket
     {
         public BeletageTicket(BaseUser user, Spectacle spectacle, double cost, int place,int amount, bool isConfirmed = false) :base(user, spectacle, cost, place, isConfirmed)

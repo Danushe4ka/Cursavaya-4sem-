@@ -1,17 +1,7 @@
 ﻿using DBObjectsClassLibrary.DataAccess;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace TicketManagementUI
 {
@@ -21,18 +11,25 @@ namespace TicketManagementUI
     public partial class TicketCategoryPrice : Window
     {
         readonly TicketTypesManager _ticketTypesManager = new TicketTypesManager();
+        /// <summary>
+        /// Конструктор класса-окна изменения цены на тип
+        /// </summary>
         public TicketCategoryPrice()
         {
             InitializeComponent();
             TypeChoosementBox.ItemsSource = _ticketTypesManager.GetTypeNames();
             TypeChoosementBox.SelectedIndex = 0;
         }
-
+        /// <summary>
+        /// Обрабочтик события изменения типа билета и передачи его цены в окно изменения
+        /// </summary>
         private void TypeChoosementBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             PriceBox.Text = _ticketTypesManager.GetTicketTypePrice(TypeChoosementBox.SelectedItem.ToString()).ToString();
         }
-
+        /// <summary>
+        /// Кнопка подтверждения изменений
+        /// </summary>
         private void ConfirmChangesButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -45,11 +42,6 @@ namespace TicketManagementUI
             {
                 MessageBox.Show("Неверный ввод данныйх\nОбратите внимание!\nДанные представлены в числовом виде");
             }
-        }
-
-        private void PriceBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
         }
     }
 }

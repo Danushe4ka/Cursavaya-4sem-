@@ -2,17 +2,8 @@
 using DBObjectsClassLibrary;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using DBObjectsClassLibrary.Models;
 
 namespace TicketManagementUI
@@ -25,6 +16,10 @@ namespace TicketManagementUI
         readonly UsersManager _usersManager;
         List<BaseUser> _users;
         bool _isCourier;
+        /// <summary>
+        /// Конструктор класса-окна регистрации
+        /// </summary>
+        /// <param name="isCourier">Регистрируется курьер</param>
         public RegisterWindow(bool isCourier)
         {
             _usersManager = new UsersManager();
@@ -32,7 +27,9 @@ namespace TicketManagementUI
             _isCourier = isCourier;
             InitializeComponent();
         }
-
+        /// <summary>
+        /// Кнопка регистрации нового пользователя
+        /// </summary>
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -61,7 +58,9 @@ namespace TicketManagementUI
                     MessageBox.Show(ex.Message);
             }
         }
-
+        /// <summary>
+        /// Обработчик события изменения текста в окне имения пользователя(для исключения ввода пробела)
+        /// </summary>
         private void UserName_TextChanged(object sender, TextChangedEventArgs e)
         {
             UserName.Text = UserName.Text.Replace(" ",string.Empty);

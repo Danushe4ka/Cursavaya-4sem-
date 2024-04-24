@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DBObjectsClassLibrary.Models
 {
@@ -38,6 +34,9 @@ namespace DBObjectsClassLibrary.Models
         /// Свойство для получения даты показа спекталя
         /// </summary>
         public DateTime SpectacleDate { get => _spectacleDate; }
+        /// <summary>
+        /// Свойство для получения наименования жанра спектакля
+        /// </summary>
         public abstract string Genre { get; }
     }
 }

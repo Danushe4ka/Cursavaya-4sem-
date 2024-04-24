@@ -6,22 +6,10 @@ using Microsoft.Win32;
 using Npgsql;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
-using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace TicketManagementUI
 {
@@ -40,6 +28,10 @@ namespace TicketManagementUI
         List<Ticket> _tickets;
         List<BaseUser> _users;
         List <string> _ticketTypes;
+        /// <summary>
+        /// Конструктор класса главного окна
+        /// </summary>
+        /// <param name="user">Пользователь</param>
         public MainWindow(BaseUser user)
         {
             try
@@ -68,11 +60,17 @@ namespace TicketManagementUI
             }
             catch (Exception ex) {MessageBox.Show(ex.Message); }
         }
+        /// <summary>
+        /// Конструктор класса главного окна для гостя
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
             CreateMainInterface();
         }
+        /// <summary>
+        /// Метод создания афиши
+        /// </summary>
         void CreateMainInterface()
         {
             _changeUser = false;
@@ -86,12 +84,18 @@ namespace TicketManagementUI
             GenreChoosementBox.ItemsSource = _spectacles.Select(g => g.Genre).Distinct().ToList();
             CategoryChoosementBox.ItemsSource = _ticketTypes;
         }
+        /// <summary>
+        /// Метод создания окна покупки билетов
+        /// </summary>
         void CreateUserInterface()
         {
             UserTicketsInfo.Visibility = Visibility.Visible;
             UserTicketsInfo.IsEnabled = true;
             UpdateUserInterface();
         }
+        /// <summary>
+        /// Метод обновления окна покупки билетов
+        /// </summary>
         void UpdateUserInterface()
         {
             _tickets = _ticketsManager.Read();
@@ -102,12 +106,18 @@ namespace TicketManagementUI
             else
                 ReturnTicketButton.IsEnabled = true;
         }
+        /// <summary>
+        /// Метод создания вкладки с курьерской информацией
+        /// </summary>
         void CreateCourierInterface()
         {
             CourierInfo.Visibility = Visibility.Visible;
             CourierInfo.IsEnabled = true;
             UpdateCourierInterface();
         }
+        /// <summary>
+        /// Метод обновления курьерской информации
+        /// </summary>
         void UpdateCourierInterface()
         {
             _tickets = _ticketsManager.Read();
@@ -118,6 +128,9 @@ namespace TicketManagementUI
             else
                 ConfrimOrderButton.IsEnabled = true;
         }
+        /// <summary>
+        /// Метод создания вкладок администрирования 
+        /// </summary>
         void CreateAdminInterface()
         {
             UsersInfo.Visibility = Visibility.Visible;
@@ -129,6 +142,9 @@ namespace TicketManagementUI
             UpdateUsersPanel();
             UpdateSpectaclesPanel();
         }
+        /// <summary>
+        /// Метод для обновления панели управления пользователями
+        /// </summary>
         void UpdateUsersPanel()
         {
             _users = _usersManager.Read();
@@ -139,6 +155,9 @@ namespace TicketManagementUI
             else
                 DeleteUserButton.IsEnabled = true;
         }
+        /// <summary>
+        /// Метод для обновления панели управления спектаклями
+        /// </summary>
         void UpdateSpectaclesPanel()
         {
             _spectacles = _spectacleManager.Read();
@@ -149,6 +168,9 @@ namespace TicketManagementUI
             else
                 DeleteSpectacleButton.IsEnabled = true;
         }
+        /// <summary>
+        /// Кнопка смены пользователя
+        /// </summary>
         private void ChangeUserButton_Click(object sender, RoutedEventArgs e)
         {
             _changeUser = true;
@@ -156,7 +178,9 @@ namespace TicketManagementUI
             loginWindow.ShowDialog();
             this.Close();
         }
-
+        /// <summary>
+        /// Кнопка сброса фильтров афиши
+        /// </summary>
         private void ChooseAll_Click(object sender, RoutedEventArgs e)
         {
             MainDataDisplay.ItemsSource = _spectacles.OrderBy(s => s.SpectacleDate);
@@ -167,17 +191,25 @@ namespace TicketManagementUI
             ChooseGenreButton.IsEnabled = false;
             ChooseCategoryButton.IsEnabled = false;
         }
+        /// <summary>
+        /// Кнопка применения фильтров по дате
+        /// </summary>
         private void ChooseDateButton_Click(object sender, RoutedEventArgs e)
         {
             MainDataDisplay.ItemsSource = _spectacles.Where(s => s.SpectacleDate.Date == Convert.ToDateTime(DateChoosementBox.SelectionBoxItem).Date).OrderBy(s => s.SpectacleDate);
             MainDataDisplay.SelectedIndex = 0;
         }
-
+        /// <summary>
+        /// Кнопка применения фильтров по жанру
+        /// </summary>
         private void ChooseGenreButton_Click(object sender, RoutedEventArgs e)
         {
             MainDataDisplay.ItemsSource = _spectacles.Where(s => s.Genre == GenreChoosementBox.SelectionBoxItem.ToString()).OrderBy(s => s.SpectacleDate);
             MainDataDisplay.SelectedIndex = 0;
         }
+        /// <summary>
+        /// Кнопка применения фильтров по типу свободных мест
+        /// </summary>
         private void ChooseCategoryButton_Click(object sender, RoutedEventArgs e)
         {
             List<Spectacle> enabledItems = _spectacles;
@@ -198,21 +230,30 @@ namespace TicketManagementUI
             MainDataDisplay.SelectedIndex = 0;
             _spectacles = _spectacleManager.Read();
         }
-
+        /// <summary>
+        /// Обработчик события для активации кнопки фильтра по жанру
+        /// </summary>
         private void GenreChoosementBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ChooseGenreButton.IsEnabled = true;
         }
+        /// <summary>
+        /// Обработчик события для активации кнопки фильтра по дате
+        /// </summary>
         private void DateChoosementBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ChooseDateButton.IsEnabled = true;
         }
-
+        /// <summary>
+        /// Обработчик события для активации кнопки фильтра по типу свободных мест
+        /// </summary>
         private void CategoryChoosementBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ChooseCategoryButton.IsEnabled = true;
         }
-
+        /// <summary>
+        /// Кнопка перехода в окно покупки билета
+        /// </summary>
         private void TicketBuyButton_Click(object sender, RoutedEventArgs e)
         {
              BuyTicket buyTicket = new BuyTicket(_user, ((Spectacle)MainDataDisplay.SelectedItem));
@@ -220,6 +261,9 @@ namespace TicketManagementUI
              UpdateUserInterface();
              UpdateCourierInterface();
         }
+        /// <summary>
+        /// Кнопка возврата выбранного билета
+        /// </summary>
         private void ReturnTicketButton_Click(object sender, RoutedEventArgs e)
         {
             Ticket ticket;
@@ -232,6 +276,9 @@ namespace TicketManagementUI
             UpdateCourierInterface();
             MessageBox.Show("Заказ(ы) успешно отменён(ы)!");
         }
+        /// <summary>
+        /// Кнопка подтверждения заказа курьером
+        /// </summary>
         private void ConfrimOrderButton_Click(object sender, RoutedEventArgs e)
         {
             Ticket ticket;
@@ -245,12 +292,19 @@ namespace TicketManagementUI
             UpdateUserInterface();
             MessageBox.Show("Заказ(ы) оформлены!");
         }
+        /// <summary>
+        /// Кнопка удаления пользователя
+        /// </summary>
         private void DeleteUserButton_Click(object sender, RoutedEventArgs e)
         {
             UserDeleteConfirmationWindow userDeleteConfirmationWindow = new UserDeleteConfirmationWindow((BaseUser)UsersDataDisplay.SelectedItem);
             userDeleteConfirmationWindow.ShowDialog();
             UpdateUsersPanel();
+            UpdateCourierInterface();
         }
+        /// <summary>
+        /// Кнопка для перехода в окно регистрации нового курьера
+        /// </summary>
         private void CreateCourierButton_Click(object sender, RoutedEventArgs e)
         {
             _users = _usersManager.Read();
@@ -258,6 +312,9 @@ namespace TicketManagementUI
             registerWindow.ShowDialog();
             UpdateUsersPanel();
         }
+        /// <summary>
+        /// Кнопка удаления выбранного спектакля
+        /// </summary>
         private void DeleteSpectacleButton_Click(object sender, RoutedEventArgs e)
         {
             _spectacleManager.Delete((Spectacle)SpectaclesDataDisplay.SelectedItem);
@@ -267,6 +324,9 @@ namespace TicketManagementUI
             CreateMainInterface();
             MessageBox.Show("Спектакль был успешно удалён из системы");
         }
+        /// <summary>
+        /// Кнопка для перехода в окно добавления нового спектакля
+        /// </summary>
         public void CreateSpectacleButton_Click(object sender, RoutedEventArgs e)
         {
             CreateNewSpectacle createNewSpectacle = new CreateNewSpectacle();
@@ -274,6 +334,9 @@ namespace TicketManagementUI
             UpdateSpectaclesPanel();
             CreateMainInterface();
         }
+        /// <summary>
+        /// Кнопка для перехода в окно изменения базовых цен на билеты
+        /// </summary>
         public void ChangeTicketCategoryPriceButton_Click(object sender, RoutedEventArgs e)
         {
             TicketCategoryPrice ticketCategoryPrice = new TicketCategoryPrice();
@@ -281,18 +344,30 @@ namespace TicketManagementUI
             _tickets = _ticketsManager.Read();
             UpdateUserInterface();
         }
+        /// <summary>
+        /// Кнопка для формирования сводного отчёта
+        /// </summary>
         public void CreateMainReport_Click(object sender, RoutedEventArgs e)
         {
             ReportsDisplay.Text = _reportBuilder.GetTotalSalesReport();
         }
+        /// <summary>
+        /// Кнопка для формирования сводного отчёта по типу билета
+        /// </summary>
         public void CreateTicketReport_Click(object sender, RoutedEventArgs e)
         {
             ReportsDisplay.Text = _reportBuilder.GetSalesReportByTicketType();
         }
+        /// <summary>
+        /// Кнопка для формирования сводного отчёта по спектаклям
+        /// </summary>
         public void CreateSpectaclesReport_Click(object sender, RoutedEventArgs e)
         {
             ReportsDisplay.Text = _reportBuilder.GetSalesReportBySpectacle();
         }
+        /// <summary>
+        /// Кнопка сохранения отчёта в формате txt
+        /// </summary>
         public void SaveReportButton_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog
@@ -306,7 +381,9 @@ namespace TicketManagementUI
                 MessageBox.Show("Отчёт успешно сохранён!");
             }
         }
-
+        /// <summary>
+        /// Обработчик события выбора билета
+        /// </summary>
         private void MainDataDisplay_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if(MainDataDisplay.SelectedItem == null)
@@ -314,6 +391,9 @@ namespace TicketManagementUI
             else
                 TicketBuyButton.IsEnabled = true;
         }
+        /// <summary>
+        /// Закрытие соединения при выходе из программы
+        /// </summary>
         private void MainWindow_Closing(object sender, EventArgs e)
         {
             if(!_changeUser)
