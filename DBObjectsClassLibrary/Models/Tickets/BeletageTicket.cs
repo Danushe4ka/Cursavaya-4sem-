@@ -14,5 +14,9 @@ namespace DBObjectsClassLibrary.Models
         }
         public override string Type { get => "Бельэтаж"; }
         public override int PlaceAmount { get; protected set; }
+        public override double GetCost()
+        {
+            return base.GetCost() * 1.0;
+        }
     }
 }

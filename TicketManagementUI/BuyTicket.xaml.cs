@@ -33,88 +33,39 @@ namespace TicketManagementUI
         readonly TicketsManager _ticketManager = new TicketsManager();
         readonly TicketTypesManager _typesManager = new TicketTypesManager();
         List<Ticket> _tickets;
-        int _lastSelectedPlacePt = 0;
-        int _lastSelectedPlaceAm = 0;
-        int _lastSelectedPlaceBl = 0;
+        List<int> _parterFreePlaces;
+        List<int> _parterSelectedPlaces = new List<int>();
+        List<int> _amphitheatreFreePlaces;
+        List<int> _amphitheatreSelectedPlaces = new List<int>();
+        List<int> _beletageFreePlaces;
+        List<int> _beletageSelectedPlaces = new List<int>();
         public BuyTicket(BaseUser user, Spectacle spectacle)
         {
             _user = user;
             _spectacle = spectacle;
             _tickets = _ticketManager.Read();
+            _parterFreePlaces = FreePlacesByType("Партер");
+            _amphitheatreFreePlaces = FreePlacesByType("Амфитеатр");
+            _beletageFreePlaces = FreePlacesByType("Бельэтаж");
             InitializeComponent();
-            TypeSelectionBox.ItemsSource = _typesManager.GetTypeNames();
             UpdateTheatrePlaces();
-        }
-
-        private void TypeSelectionBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (SelectedTypeFreePlaces().Count > 0)
-            {
-                PlaceSelectionBox.IsEnabled = true;
-                PlaceSelectionBox.SelectedItem = SelectedTypeFreePlaces()[0];
-                PlaceSelectionBox.ItemsSource = SelectedTypeFreePlaces();
-                UpdatePlaces();
-                UpdatePlaceVisualization();
-            }
-            else
-            {
-                PlaceSelectionBox.IsEnabled = false;
-                PlaceSelectionBox.ItemsSource = SelectedTypeFreePlaces();
-                UpdatePlaces();
-            }
-        }
-        private void PlaceSelectionBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (SelectedTypeFreePlaces().Count > 0)
-            {
-                BuyButton.IsEnabled = true;
-                UpdatePlaces();
-                UpdatePlaceVisualization();
-            }
-            else
-                BuyButton.IsEnabled = false;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string ticketType = TypeSelectionBox.SelectedItem.ToString();
-            try
-            {
-                double cost = _typesManager.GetTicketTypePrice(ticketType);
-                int amount = _typesManager.GetTicketTypePlaceAmount(ticketType);
-                int place = Convert.ToInt32(PlaceSelectionBox.SelectedItem);
-                if (place > 0 && place <= _typesManager.GetTicketTypePlaceAmount(ticketType))
-                {
-                    Ticket ticket;
-                    switch (ticketType)
-                    {
-                        case "Партер":
-                            ticket = new ParterTicket(_user,_spectacle,cost,place,amount);
-                            _ticketManager.Create(ticket);
-                            break;
-                        case "Амфитеатр":
-                            ticket = new AmphitheatreTicket(_user, _spectacle, cost, place, amount);
-                            _ticketManager.Create(ticket);
-                            break;
-                        case "Бельэтаж":
-                            ticket = new BeletageTicket(_user, _spectacle, cost, place, amount);
-                            _ticketManager.Create(ticket);
-                            break;
-                        default:
-                            throw new Exception("Неопознанный тип билета");
-                    }
-                    this.Close();
-                }
-                else throw new Exception("Выбранное место не существует!");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            var tickets = new List<Ticket>();
+            foreach (int place in _parterSelectedPlaces)
+                tickets.Add(new ParterTicket(_user, _spectacle, _typesManager.GetTicketTypePrice("Партер"), place, _typesManager.GetTicketTypePlaceAmount("Партер")));
+            foreach (int place in _amphitheatreSelectedPlaces)
+                tickets.Add(new AmphitheatreTicket(_user, _spectacle, _typesManager.GetTicketTypePrice("Амфитеатр"), place, _typesManager.GetTicketTypePlaceAmount("Амфитеатр")));
+            foreach (int place in _beletageSelectedPlaces)
+                tickets.Add(new BeletageTicket(_user, _spectacle, _typesManager.GetTicketTypePrice("Бельэтаж"), place, _typesManager.GetTicketTypePlaceAmount("Бельэтаж")));
+            TicketsBin ticketsBin = new TicketsBin(tickets);
+            ticketsBin.ShowDialog();
+            this.Close();
         }
-        private List<int> SelectedTypeFreePlaces()
+        private List<int> FreePlacesByType(string ticketType)
         {
-            string ticketType = TypeSelectionBox.SelectedItem.ToString();
             int amountOfPlaces = _typesManager.GetTicketTypePlaceAmount(ticketType);
             List<int> places = new List<int>();
             for (int i = 1; i <= amountOfPlaces; i++)
@@ -131,56 +82,84 @@ namespace TicketManagementUI
         {
             for (int i = 1; i <= 25; i++)
                 foreach (Ticket ticket in _tickets.Where(t => t.Spectacle.SpectacleDate == _spectacle.SpectacleDate && t.Place == i && t.Type == "Партер" && ParterPlaces.Children[i - 1] != null))
+                {
                     ParterPlaces.Children[i - 1].Opacity = 0.2;
+                    ParterPlaces.Children[i - 1].IsEnabled = false;
+                }
             for (int i = 1; i <= 10; i++)
                 foreach (Ticket ticket in _tickets.Where(t => t.Spectacle.SpectacleDate == _spectacle.SpectacleDate && t.Place == i))
                 {
                     if (AmphitheatrePlaces.Children[i - 1] != null && ticket.Type == "Амфитеатр")
+                    {
                         AmphitheatrePlaces.Children[i - 1].Opacity = 0.2;
+                        AmphitheatrePlaces.Children[i - 1].IsEnabled = false;
+                    }
                     else if (BeletagePlaces.Children[i - 1] != null && ticket.Type == "Бельэтаж")
+                    {
                         BeletagePlaces.Children[i - 1].Opacity = 0.2;
+                        BeletagePlaces.Children[i - 1].IsEnabled = false;
+                    }
                 }
         }
-        private void UpdatePlaceVisualization()
+        private void ParterButton_Click(object sender, RoutedEventArgs e)
         {
-            int selectedIndex = Convert.ToInt32(PlaceSelectionBox.SelectedItem) - 1;
-            switch (TypeSelectionBox.SelectedItem.ToString())
+            int place = Convert.ToInt32(((Button)sender).Content);
+            if (_parterFreePlaces.Contains(place) && !_parterSelectedPlaces.Contains(place))
             {
-                case "Партер":
-                    Label selectedLabel = (Label)ParterPlaces.Children[selectedIndex];
-                    selectedLabel.Background = Brushes.Aquamarine;
-                    ParterPlaces.Children[selectedIndex] = selectedLabel;
-                    _lastSelectedPlacePt = selectedIndex;
-                    break;
-                case "Амфитеатр":
-
-                    Label selectedLabelA = (Label)AmphitheatrePlaces.Children[selectedIndex];
-                    selectedLabelA.Background = Brushes.CornflowerBlue;
-                    AmphitheatrePlaces.Children[selectedIndex] = selectedLabelA;
-                    _lastSelectedPlaceAm = selectedIndex;
-                    break;
-                case "Бельэтаж":
-
-                    Label selectedLabelB = (Label)BeletagePlaces.Children[selectedIndex];
-                    selectedLabelB.Background = Brushes.Blue;
-                    BeletagePlaces.Children[selectedIndex] = selectedLabelB;
-                    _lastSelectedPlaceBl = selectedIndex;
-                    break;
+                ((Button)sender).Background = Brushes.Aquamarine;
+                _parterSelectedPlaces.Add(place);
+                BuyButton.IsEnabled = true;
+            }
+            else if(_parterFreePlaces.Contains(place) && _parterSelectedPlaces.Contains(place))
+            {
+                ((Button)sender).Background = Brushes.White;
+                _parterSelectedPlaces.Remove(place);
+                if (!IsAnyTicketSelected())
+                    BuyButton.IsEnabled = false;
             }
         }
-        private void UpdatePlaces()
+
+        private void AmphyButton_Click(object sender, RoutedEventArgs e)
         {
-            Label lastSelectedLabel = (Label)ParterPlaces.Children[_lastSelectedPlacePt];
-            lastSelectedLabel.Background = null;
-            ParterPlaces.Children[_lastSelectedPlacePt] = lastSelectedLabel;
+            int place = Convert.ToInt32(((Button)sender).Content);
+            if (_amphitheatreFreePlaces.Contains(place) && !_amphitheatreSelectedPlaces.Contains(place))
+            {
+                ((Button)sender).Background = Brushes.CornflowerBlue;
+                _amphitheatreSelectedPlaces.Add(place);
+                BuyButton.IsEnabled = true;
+            }
+            else if(_amphitheatreFreePlaces.Contains(place) && _amphitheatreSelectedPlaces.Contains(place))
+            {
+                ((Button)sender).Background = Brushes.White;
+                _amphitheatreSelectedPlaces.Remove(place);
+                if(!IsAnyTicketSelected())
+                    BuyButton.IsEnabled = false;
+            }
+        }
 
-            Label lastSelectedLabelA = (Label)AmphitheatrePlaces.Children[_lastSelectedPlaceAm];
-            lastSelectedLabelA.Background = null;
-            AmphitheatrePlaces.Children[_lastSelectedPlaceAm] = lastSelectedLabelA;
-
-            Label lastSelectedLabelB = (Label)BeletagePlaces.Children[_lastSelectedPlaceBl];
-            lastSelectedLabelB.Background = null;
-            BeletagePlaces.Children[_lastSelectedPlaceBl] = lastSelectedLabelB;
+        private void BeletageButton_Click(object sender, RoutedEventArgs e)
+        {
+            int place = Convert.ToInt32(((Button)sender).Content);
+            if (_beletageFreePlaces.Contains(place) && !_beletageSelectedPlaces.Contains(place))
+            {
+                ((Button)sender).Background = Brushes.Blue;
+                _beletageSelectedPlaces.Add(place);
+                BuyButton.IsEnabled = true;
+            }
+            else if (_beletageFreePlaces.Contains(place) && _beletageSelectedPlaces.Contains(place))
+            {
+                ((Button)sender).Background = Brushes.White;
+                _beletageSelectedPlaces.Remove(place);
+                if (!IsAnyTicketSelected())
+                    BuyButton.IsEnabled = false;
+            }
+        }
+        private bool IsAnyTicketSelected()
+        {
+            bool isSelected = true;
+            if (_amphitheatreSelectedPlaces.Count < 1 && _parterSelectedPlaces.Count < 1 && _beletageSelectedPlaces.Count < 1)
+                isSelected = false;
+            return isSelected;
         }
     }
 }

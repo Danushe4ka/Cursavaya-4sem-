@@ -14,5 +14,9 @@ namespace DBObjectsClassLibrary.Models.Tickets
         }
         public override string Type { get => "Партер"; }
         public override int PlaceAmount { get; protected set; }
+        public override double GetCost()
+        {
+            return base.GetCost() * 2.0;
+        }
     }
 }

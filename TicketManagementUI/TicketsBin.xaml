@@ -1,0 +1,25 @@
+﻿<Window x:Class="TicketManagementUI.TicketsBin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TicketManagementUI"
+        mc:Ignorable="d"
+        Title="TicketsBin" Height="447" Width="686">
+    <Grid>
+        <ListView x:Name="TicketsDataDisplay" Margin="47,88,47,160">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleInformation}">Информация о спектакле</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Type}">Тип билета</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Cost}">Стоимость</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Place}">Место</GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button x:Name="BuyButton" Content="Купить" HorizontalAlignment="Center" Margin="0,368,0,0" VerticalAlignment="Top" Click="BuyButton_Click" Height="35" Width="114" FontSize="20"/>
+        <Label Content="Следующие билеты будут приобретены:" HorizontalAlignment="Center" Margin="0,22,0,0" VerticalAlignment="Top" Height="44" Width="464" FontSize="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Label x:Name="PriceBox" Content="Общая стоимость: " HorizontalAlignment="Center" Margin="0,313,0,0" VerticalAlignment="Top" Width="204" Height="25" HorizontalContentAlignment="Center"/>
+
+    </Grid>
+</Window>
