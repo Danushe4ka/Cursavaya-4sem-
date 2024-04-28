@@ -3,45 +3,49 @@ using DBObjectsClassLibrary.Models;
 using DBObjectsClassLibrary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using Npgsql;
+using DBObjectsClassLibrary.Models.Spectacles;
 
 namespace TicketManagementSustemTesting
 {
     [TestClass]
     public class UnitTestSpectaclesTesting
     {
-        SpectaclesManager spectaclesManager = new SpectaclesManager();
-        Spectacle spectacle = new Spectacle(1, "test", "test", "test", new DateTime(2000-01-01));
+        NpgsqlCommand _cmd = new NpgsqlCommand();
+        SpectaclesManager _spectaclesManager = new SpectaclesManager();
+        Spectacle _newSpectacle = new DramaSpectacle("Test", "testauthor", new DateTime(2000, 1, 1, 10, 30, 0));
         [TestMethod]
         public void TestRead()
         {
-            Assert.AreEqual(spectaclesManager.Read()[0].SpectacleId, 1);
+            _cmd.Connection = DBConnectionManager.GetInstance.Connection;
+            _cmd.CommandText = "select count(*) from Spectacles";
+            int count = Convert.ToInt32(_cmd.ExecuteScalar());
+            Assert.AreEqual(_spectaclesManager.Read().Count, count);
         }
         [TestMethod]
         public void TestCreate()
         {
-            spectaclesManager.Create(spectacle);
-            var spectacles = spectaclesManager.Read();
-            Assert.AreEqual(spectacles[spectacles.Count - 1].SpectacleName, "test");
-            spectaclesManager.Delete(new Spectacle(spectacles[spectacles.Count - 1].SpectacleId, "test1", "test", "test", new DateTime(2000-01-01)));
+            _spectaclesManager.Create(_newSpectacle);
+            var spectacles = _spectaclesManager.Read();
+            Assert.AreEqual(spectacles[spectacles.Count - 1].SpectacleName, "Test");
+            _spectaclesManager.Delete(_newSpectacle);
         }
         [TestMethod]
         public void TestUpdate()
         {
-            spectaclesManager.Create(spectacle);
-            var spectacles = spectaclesManager.Read();
-            int spectacleId = spectacles[spectacles.Count - 1].SpectacleId;
-            spectaclesManager.Update(new Spectacle(spectacleId, "test1", "test", "test", new DateTime(2000 - 01 - 01)));
-            Assert.IsTrue(spectaclesManager.Read()[spectacles.Count - 1].SpectacleName == "test1");
-            spectaclesManager.Delete(new Spectacle(spectacles[spectacles.Count - 1].SpectacleId, "test1", "test", "test", new DateTime(2000 - 01 - 01)));
+            _spectaclesManager.Create(_newSpectacle);
+            var spectacles = _spectaclesManager.Read();
+            _spectaclesManager.Update(new NovelSpectacle("Test1", "testauthor", new DateTime(2000, 1, 1, 10, 30, 0)));
+            Assert.IsTrue(_spectaclesManager.Read()[spectacles.Count - 1].SpectacleName == "Test1");
+            _spectaclesManager.Delete(new NovelSpectacle("Test1", "testauthor", new DateTime(2000, 1, 1, 10, 30, 0)));
         }
         [TestMethod]
         public void TestDelete()
         {
-            spectaclesManager.Create(spectacle);
-            var spectacles = spectaclesManager.Read();
-            int spectacleId = spectacles[spectacles.Count - 1].SpectacleId;
-            spectaclesManager.Delete(new Spectacle(spectacleId, "test1", "test", "test", new DateTime(2000 - 01 - 01)));
-            Assert.IsTrue(spectaclesManager.Read().Count == spectacles.Count - 1);
+            _spectaclesManager.Create(_newSpectacle);
+            var spectacles = _spectaclesManager.Read();
+            _spectaclesManager.Delete(_newSpectacle);
+            Assert.IsTrue(_spectaclesManager.Read().Count == spectacles.Count - 1);
         }
     }
 }

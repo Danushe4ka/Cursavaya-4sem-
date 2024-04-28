@@ -80,7 +80,7 @@ namespace DBObjectsClassLibrary.DataAccess
         public override void Update(Spectacle spectacle)
         {
             _command.Parameters.Clear();
-            string command = $"update Spectacles set SpectacleName=@nameParam, SpectacleAuthor=@authorParam,SpectacleGenre=@genreParam,SpectacleDate=@dateParam ";
+            string command = $"update Spectacles set SpectacleName=@nameParam, SpectacleAuthor=@authorParam,GenreId=@genreParam,SpectacleDate=@dateParam ";
             command += $"where SpectacleDate = @dateParam";
             _command.CommandText = command;
             NpgsqlParameter nameParam = new NpgsqlParameter("@nameParam", spectacle.SpectacleName);

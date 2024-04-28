@@ -1,7 +1,6 @@
 ﻿using DBObjectsClassLibrary.DataAccess;
-using DBObjectsClassLibrary.Models;
+using DBObjectsClassLibrary.Utility;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 
@@ -12,17 +11,14 @@ namespace TicketManagementUI
     /// </summary>
     public partial class TicketsBin : Window
     {
-        List<Ticket> _tickets;
         /// <summary>
         /// Конструктор класса-окна корзины
         /// </summary>
-        /// <param name="tickets">Список выбранных мест</param>
-        public TicketsBin(List<Ticket> tickets)
+        public TicketsBin()
         {
-            _tickets = tickets;
             InitializeComponent();
-            TicketsDataDisplay.ItemsSource = _tickets.OrderBy(t => t.Type).ThenBy(t => t.Place);
-            PriceBox.Content += _tickets.Sum(t => t.Cost).ToString();
+            TicketsDataDisplay.ItemsSource = Bin.GetInstance.GetBin.OrderBy(t => t.Type).ThenBy(t => t.Place);
+            PriceBox.Content += Bin.GetInstance.GetBin.Sum(t => t.Cost).ToString();
         }
         /// <summary>
         /// Кнопка покупки
@@ -31,11 +27,12 @@ namespace TicketManagementUI
         {
             try
             {
-                foreach (Ticket ticket in _tickets)
+                foreach (var ticket in Bin.GetInstance.GetBin)
                 {
                     new TicketsManager().Create(ticket);
-                    this.Close();
                 }
+                Bin.GetInstance.ClearBin();
+                this.Close();
             }
             catch(Exception ex)
             {

@@ -2,6 +2,7 @@
 using DBObjectsClassLibrary.DataAccess;
 using DBObjectsClassLibrary.Models;
 using DBObjectsClassLibrary.Models.Tickets;
+using DBObjectsClassLibrary.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,16 +48,15 @@ namespace TicketManagementUI
         /// <summary>
         /// Кнопка перехода в окно покупки выбранных мест
         /// </summary>
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void BuyButton_Click(object sender, RoutedEventArgs e)
         {
-            var tickets = new List<Ticket>();
             foreach (int place in _parterSelectedPlaces)
-                tickets.Add(new ParterTicket(_user, _spectacle, _typesManager.GetTicketTypePrice("Партер"), place, _typesManager.GetTicketTypePlaceAmount("Партер")));
+                Bin.GetInstance.AddToBin(new ParterTicket(_user, _spectacle, _typesManager.GetTicketTypePrice("Партер"), place, _typesManager.GetTicketTypePlaceAmount("Партер")));
             foreach (int place in _amphitheatreSelectedPlaces)
-                tickets.Add(new AmphitheatreTicket(_user, _spectacle, _typesManager.GetTicketTypePrice("Амфитеатр"), place, _typesManager.GetTicketTypePlaceAmount("Амфитеатр")));
+                Bin.GetInstance.AddToBin(new AmphitheatreTicket(_user, _spectacle, _typesManager.GetTicketTypePrice("Амфитеатр"), place, _typesManager.GetTicketTypePlaceAmount("Амфитеатр")));
             foreach (int place in _beletageSelectedPlaces)
-                tickets.Add(new BeletageTicket(_user, _spectacle, _typesManager.GetTicketTypePrice("Бельэтаж"), place, _typesManager.GetTicketTypePlaceAmount("Бельэтаж")));
-            TicketsBin ticketsBin = new TicketsBin(tickets);
+                Bin.GetInstance.AddToBin(new BeletageTicket(_user, _spectacle, _typesManager.GetTicketTypePrice("Бельэтаж"), place, _typesManager.GetTicketTypePlaceAmount("Бельэтаж")));
+            TicketsBin ticketsBin = new TicketsBin();
             ticketsBin.ShowDialog();
             this.Close();
         }

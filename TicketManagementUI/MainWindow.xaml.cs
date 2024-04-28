@@ -3,7 +3,6 @@ using DBObjectsClassLibrary.DataAccess;
 using DBObjectsClassLibrary.Models;
 using DBObjectsClassLibrary.Utility;
 using Microsoft.Win32;
-using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -1,6 +1,8 @@
-﻿using DBObjectsClassLibrary.DataAccess;
+﻿using DBObjectsClassLibrary;
+using DBObjectsClassLibrary.DataAccess;
 using DBObjectsClassLibrary.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Npgsql;
 using System;
 
 namespace TicketManagementSustemTesting
@@ -8,43 +10,43 @@ namespace TicketManagementSustemTesting
     [TestClass]
     public class UnitTestTicketsTesting
     {
-        TicketsManager ticketsManager = new TicketsManager();
-        Ticket ticket = new Ticket(1, 1, 1, 1, 1);
+        NpgsqlCommand _cmd = new NpgsqlCommand();
+        TicketsManager _ticketsManager = new TicketsManager();
+        Ticket _newTicket = new BeletageTicket(new UsersManager().Read()[0], new SpectaclesManager().Read()[0], new TicketTypesManager().GetTicketTypePrice("Бельэтаж"), 1, new TicketTypesManager().GetTicketTypePlaceAmount("Бельэтаж"));
         [TestMethod]
         public void TestRead()
         {
-            ticketsManager.Create(ticket);
-            var tickets = ticketsManager.Read();
-            Assert.AreEqual(ticketsManager.Read()[0].SpectacleID, 1);
-            ticketsManager.Delete(new Ticket(tickets[tickets.Count - 1].TicketId, 1, 1, 1, 1));
+            _cmd.Connection = DBConnectionManager.GetInstance.Connection;
+            _cmd.CommandText = "select count(*) from Tickets";
+            int count = Convert.ToInt32(_cmd.ExecuteScalar());
+            Assert.AreEqual(_ticketsManager.Read().Count, count);
         }
         [TestMethod]
         public void TestCreate()
         {
-            ticketsManager.Create(ticket);
-            var tickets = ticketsManager.Read();
-            Assert.AreEqual(tickets[tickets.Count - 1].UserId, 1);
-            ticketsManager.Delete(new Ticket(tickets[tickets.Count - 1].TicketId, 1, 1, 1, 1));
+            _ticketsManager.Create(_newTicket);
+            var tickets = _ticketsManager.Read();
+            Assert.AreEqual(tickets[tickets.Count - 1].Type, "Бельэтаж");
+            _ticketsManager.Delete(_newTicket);
         }
         [TestMethod]
         public void TestUpdate()
         {
-            ticketsManager.Create(ticket);
-            var tickets = ticketsManager.Read();
-            int ticketId = tickets[tickets.Count - 1].TicketId;
-            ticketsManager.Update(new Ticket(ticketId, 2, 1, 1, 1));
-            Assert.IsTrue(ticketsManager.Read()[tickets.Count - 1].UserId == 2);
-            ticketsManager.Delete(new Ticket(tickets[tickets.Count - 1].TicketId, 1, 1, 1, 1));
+            _ticketsManager.Create(_newTicket);
+            var tickets = _ticketsManager.Read();
+            var nnticket = _newTicket;
+            nnticket.IsConfirmed = true;
+            _ticketsManager.Update(nnticket);
+            Assert.IsTrue(_ticketsManager.Read()[tickets.Count - 1].Type == "Бельэтаж");
+            _ticketsManager.Delete(nnticket);
         }
         [TestMethod]
         public void TestDelete()
         {
-            ticketsManager.Create(ticket);
-            var tickets = ticketsManager.Read();
-
-            int ticketId = tickets[tickets.Count - 1].TicketId;
-            ticketsManager.Delete(new Ticket(ticketId, 1, 1, 1, 1));
-            Assert.IsTrue(ticketsManager.Read().Count == tickets.Count - 1);
+            _ticketsManager.Create(_newTicket);
+            var tickets = _ticketsManager.Read();
+            _ticketsManager.Delete(_newTicket);
+            Assert.IsTrue(_ticketsManager.Read().Count == tickets.Count - 1);
         }
     }
 }

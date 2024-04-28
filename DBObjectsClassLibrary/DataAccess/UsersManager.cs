@@ -14,8 +14,8 @@ namespace DBObjectsClassLibrary.DataAccess
         {
             _command.Parameters.Clear();
             List<BaseUser> users = new List<BaseUser>();
-            _command.CommandText = "select * from Users order by @userName;";
-            NpgsqlParameter userParam = new NpgsqlParameter("@userName", "UserName");
+            _command.CommandText = "select * from Users order by @userId;";
+            NpgsqlParameter userParam = new NpgsqlParameter("@userId", "UserId");
             _command.Parameters.Add(userParam);
             NpgsqlDataReader reader = _command.ExecuteReader();
             if (reader.HasRows)
@@ -71,7 +71,7 @@ namespace DBObjectsClassLibrary.DataAccess
             if (user.Role != "Admin")
             {
                 _command.Parameters.Clear();
-                string command = $"update Users set Username=@nameParam, Password=@passParam ";
+                string command = $"update Users set Password=@passParam ";
                 command += $"where UserName = @nameParam";
                 _command.CommandText = command;
                 NpgsqlParameter nameParam = new NpgsqlParameter("@nameParam", user.UserName);

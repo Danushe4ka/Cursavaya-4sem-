@@ -23,9 +23,11 @@ namespace DBObjectsClassLibrary.DataAccess
         public CommonManager()
         {
             _connection = DBConnectionManager.GetInstance.Connection;
-            _command = new NpgsqlCommand();
-            _command.Connection = _connection;
-            _command.CommandType = System.Data.CommandType.Text;
+            _command = new NpgsqlCommand
+            {
+                Connection = _connection,
+                CommandType = System.Data.CommandType.Text
+            };
         }
         /// <summary>
         /// Метод для чтения объектов базы данных в список

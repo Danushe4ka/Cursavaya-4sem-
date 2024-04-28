@@ -9,39 +9,37 @@ namespace TicketManagementSustemTesting
     [TestClass]
     public class UnitTestUsersTesting
     {
-        UsersManager usersManager = new UsersManager();
-        BaseUser user = new RegUser(1, "test", "test");
+        UsersManager _usersManager = new UsersManager();
+        BaseUser _newUser = new RegUser("test", "test");
         [TestMethod]
         public void TestRead()
         {
-            Assert.AreEqual(usersManager.Read()[0].Role,"Admin");
+            Assert.AreEqual(_usersManager.Read()[0].Role,"Admin");
         }
         [TestMethod]
         public void TestCreate()
         {
-            usersManager.Create(user);
-            var users = usersManager.Read();
+            _usersManager.Create(_newUser);
+            var users = _usersManager.Read();
             Assert.AreEqual(users[users.Count-1].UserName, "test");
-            usersManager.Delete(new RegUser(users[users.Count - 1].UserId, "test1", "test"));
+            _usersManager.Delete(_newUser);
         }
         [TestMethod]
         public void TestUpdate()
         {
-            usersManager.Create(user);
-            var users = usersManager.Read();
-            int userId = users[users.Count-1].UserId;
-            usersManager.Update(new RegUser(userId, "test1", "test"));
-            Assert.IsTrue(usersManager.Read()[users.Count-1].UserName == "test1");
-            usersManager.Delete(new RegUser(users[users.Count - 1].UserId, "test1", "test"));
+            _usersManager.Create(_newUser);
+            var users = _usersManager.Read();
+            _usersManager.Update(new RegUser("test", "test1"));
+            Assert.IsTrue(_usersManager.Read()[users.Count-1].Password == "test1");
+            _usersManager.Delete(new RegUser("test", "test1"));
         }
         [TestMethod]
         public void TestDelete()
         {
-            usersManager.Create(user);
-            var users = usersManager.Read();
-            int userId = users[users.Count - 1].UserId;
-            usersManager.Delete(new RegUser(userId, "test1", "test"));
-            Assert.IsTrue(usersManager.Read().Count == users.Count-1 );
+            _usersManager.Create(_newUser);
+            var users = _usersManager.Read();
+            _usersManager.Delete(_newUser);
+            Assert.IsTrue(_usersManager.Read().Count == users.Count-1 );
         }
     }
 }

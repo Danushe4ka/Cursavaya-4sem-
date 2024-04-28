@@ -11,11 +11,11 @@ namespace DBObjectsClassLibrary
         /// <summary>
         /// Поле, содержащее сылку на DBConnectionManager
         /// </summary>
-        static readonly DBConnectionManager instance = new DBConnectionManager();
+        static readonly DBConnectionManager _instance = new DBConnectionManager();
         /// <summary>
         /// Поле строки подключения
         /// </summary>
-        readonly string _sqlCon = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;//qy5k--zhr8a98L
+        readonly string _sqlCon = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         /// <summary>
         /// Поле экземпляра подключения к базе данных
         /// </summary>
@@ -31,11 +31,11 @@ namespace DBObjectsClassLibrary
         /// <summary>
         /// Свойство для получения ссылки на объект DBConnectionManager
         /// </summary>
-        public static DBConnectionManager GetInstance { get => instance; }
+        public static DBConnectionManager GetInstance { get => _instance; }
         /// <summary>
         /// Свойство для получения экземпляра подключения
         /// </summary>
-        public NpgsqlConnection Connection { get { return _connection; } }
+        public NpgsqlConnection Connection { get => _connection; }
         /// <summary>
         /// Метод закрытия подключения
         /// </summary>

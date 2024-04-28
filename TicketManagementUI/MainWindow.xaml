@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TicketManagementUI"
         xmlns:DataAccess="clr-namespace:DBObjectsClassLibrary.DataAccess;assembly=DBObjectsClassLibrary" x:Class="TicketManagementUI.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow_Close" Height="562" Width="983"
+        Title="MainWindow" Height="562" Width="983"
         Closing="MainWindow_Closing">
     <Grid Margin="0,0,0,-6">
         <Grid.ColumnDefinitions>
