@@ -14,12 +14,14 @@ namespace TicketManagementUI
     {
         readonly UsersManager _usersManager;
         List<BaseUser> _users;
+        bool _otherOpened;
         /// <summary>
         /// Конструктор класса-окна входа
         /// </summary>
         public LoginWindow()
         {
             _usersManager = new UsersManager();
+            _otherOpened = false;
             InitializeComponent();
         }
 
@@ -41,6 +43,7 @@ namespace TicketManagementUI
                         MainWindow main = new MainWindow(user);
                         userExist = true;
                         main.Show();
+                        _otherOpened = true;
                         this.Close();
                     }
                 if (!userExist)
@@ -58,6 +61,7 @@ namespace TicketManagementUI
         {
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
+            _otherOpened = true;
             this.Close();
         }
         /// <summary>
@@ -76,6 +80,12 @@ namespace TicketManagementUI
         {
             UserName.Text = UserName.Text.Replace(" ", string.Empty);
             UserName.SelectionStart = UserName.Text.Length;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if(!_otherOpened)
+                DBConnectionManager.GetInstance.CloseConnection();
         }
     }
 }

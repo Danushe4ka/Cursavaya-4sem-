@@ -6,18 +6,224 @@
         xmlns:local="clr-namespace:TicketManagementUI"
         mc:Ignorable="d"
         Title="CreateNewSpectacle" Height="633" Width="298">
+    <Window.Resources>
+
+        <Style x:Key="CommonControlStyle" TargetType="Control">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#FFABC6D2" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+        <Style x:Key="ButtonStyle" TargetType="Button" BasedOn="{StaticResource CommonControlStyle}">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border x:Name="border"
+                    Background="{TemplateBinding Background}"
+                    CornerRadius="5"
+                    SnapsToDevicePixels="True">
+                                <ContentPresenter x:Name="contentPresenter"
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FF9ED0D4"/>
+                                            <GradientStop Color="#FFE1FEFF" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#0D47A1"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="#B0BEC5"/>
+                                <Setter Property="Foreground" Value="#757575"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
+                <Border x:Name="border"
+                Background="{TemplateBinding Background}"
+                Grid.ColumnSpan="2"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="5"/>
+                <Border x:Name="arrowBorder"
+                Grid.Column="1"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                BorderThickness="1,1,1,1"
+                CornerRadius="5">
+                    <Path x:Name="arrow"
+                  Width="8"
+                  Height="5"
+                  Fill="{TemplateBinding Foreground}"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Center"
+                  Data="M 0 0 L 4 4 L 8 0 Z"/>
+                </Border>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter TargetName="arrow" Property="Data" Value="M 0 4 L 4 0 L 8 4 Z"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="border" Property="Background" Value="#64B5F6"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter TargetName="border" Property="Background" Value="#42A5F5"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style x:Key="ComboBoxStyle" TargetType="ComboBox" BasedOn="{StaticResource CommonControlStyle}">
+            <Setter Property="BorderBrush" Value="#B3E5FC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="5,2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Border x:Name="border"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="5"
+                    SnapsToDevicePixels="True">
+                                <ToggleButton x:Name="toggleButton"
+                              BorderThickness="0"
+                              Background="{TemplateBinding Background}"
+                              Grid.Column="2"
+                              ClickMode="Press"
+                              Focusable="False"
+                              IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                              Template="{StaticResource ComboBoxToggleButton}"/>
+                            </Border>
+                            <ContentPresenter x:Name="contentPresenter"
+                              Margin="5,0,0,0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Center"
+                              Content="{TemplateBinding SelectionBoxItem}"/>
+                            <TextBox x:Name="PART_EditableTextBox"
+                                 Visibility="Hidden"
+                                 IsReadOnly="{TemplateBinding IsReadOnly}"
+                                 HorizontalAlignment="Left"
+                                 VerticalAlignment="Center"
+                                 Style="{x:Null}"
+                                 Margin="3,3,23,3"
+                                 Focusable="True"
+                                 Background="Transparent"
+                                 Foreground="{TemplateBinding Foreground}"
+                                 FontWeight="{TemplateBinding FontWeight}"
+                                 FontSize="{TemplateBinding FontSize}"/>
+                            <Popup x:Name="popup"
+                               Placement="Bottom"
+                               IsOpen="{TemplateBinding IsDropDownOpen}"
+                               AllowsTransparency="True"
+                               Focusable="False"
+                               PopupAnimation="Slide">
+                                <Grid x:Name="DropDown"
+                                  SnapsToDevicePixels="True"
+                                  MinWidth="{TemplateBinding ActualWidth}"
+                                  MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border x:Name="DropDownBorder"
+                                        Background="White"
+                                        BorderThickness="1"
+                                        BorderBrush="#B3E5FC"/>
+                                    <ScrollViewer Margin="4,6,4,6"
+                                         SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True"
+                                            KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="#E0E0E0"/>
+                            </Trigger>
+                            <Trigger Property="IsGrouping" Value="True">
+                                <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
+                            </Trigger>
+                            <Trigger SourceName="popup" Property="Popup.AllowsTransparency" Value="True">
+                                <Setter TargetName="DropDownBorder" Property="CornerRadius" Value="0,0,4,4"/>
+                                <Setter TargetName="DropDownBorder" Property="Margin" Value="0,-1,0,0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="TextBoxStyle" TargetType="TextBox">
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="5">
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                  Margin="{TemplateBinding Padding}"
+                                  HorizontalScrollBarVisibility="Hidden"
+                                  VerticalScrollBarVisibility="Hidden"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
     <Grid>
-        <TextBox x:Name="SpectacleNameBox" HorizontalAlignment="Center" Margin="0,81,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="272" Height="30"/>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFABC6D2" Offset="0"/>
+                <GradientStop Color="White" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <TextBox x:Name="SpectacleNameBox" Style="{StaticResource TextBoxStyle}" HorizontalAlignment="Center" Margin="0,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="272" Height="56" FontSize="16"/>
         <Label Content="Название" HorizontalAlignment="Center" Margin="0,33,0,0" VerticalAlignment="Top" Width="94" HorizontalContentAlignment="Center"/>
         <Label x:Name="___Без_имени_" Content="Автор" HorizontalAlignment="Center" Margin="0,138,0,0" VerticalAlignment="Top" Width="94" HorizontalContentAlignment="Center"/>
-        <TextBox x:Name="SpectacleAuthorBox" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Width="272" Height="30" Margin="0,200,0,0"/>
+        <TextBox x:Name="SpectacleAuthorBox" Style="{StaticResource TextBoxStyle}" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Width="272" Height="54" Margin="0,200,0,0" FontSize="16"/>
         <Label x:Name="___Без_имени__Копировать" Content="Жанр" HorizontalAlignment="Center" Margin="0,259,0,0" VerticalAlignment="Top" Width="94" HorizontalContentAlignment="Center"/>
         <Label x:Name="___Без_имени__Копировать1" Content="Дата" HorizontalAlignment="Center" Margin="0,378,0,0" VerticalAlignment="Top" Width="94" HorizontalContentAlignment="Center"/>
-        <DatePicker x:Name="SpectacleDatePicker" HorizontalAlignment="Center" Margin="0,424,0,0" VerticalAlignment="Top" Width="146"/>
-        <Button x:Name="CreateSpectacleButton" Content="Создать" HorizontalAlignment="Center" Margin="0,560,0,0" VerticalAlignment="Top" Height="26" Width="94" Click="CreateSpectacleButton_Click"/>
-        <ComboBox x:Name="SpectacleGenreBox" HorizontalAlignment="Center" Margin="0,335,0,0" VerticalAlignment="Top" Width="244" Height="25" SelectedIndex="0"/>
-        <TextBox x:Name="HourBox" HorizontalAlignment="Left" Margin="53,512,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" Height="24" PreviewTextInput="TimeBox_TextInput"/>
-        <TextBox x:Name="MinuteBox" HorizontalAlignment="Left" Margin="198,512,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" Height="24" PreviewTextInput="TimeBox_TextInput"/>
+        <DatePicker x:Name="SpectacleDatePicker" HorizontalAlignment="Center" Margin="0,424,0,0" VerticalAlignment="Top" Width="146" Background="{x:Null}" Foreground="#FF333333"/>
+        <Button x:Name="CreateSpectacleButton" Style="{StaticResource ButtonStyle}" Content="Создать" HorizontalAlignment="Center" Margin="0,560,0,0" VerticalAlignment="Top" Height="26" Width="94" Click="CreateSpectacleButton_Click"/>
+        <ComboBox x:Name="SpectacleGenreBox" Style="{StaticResource ComboBoxStyle}" HorizontalAlignment="Center" Margin="0,335,0,0" VerticalAlignment="Top" Width="244" Height="25" SelectedIndex="0"/>
+        <TextBox x:Name="HourBox" MaxLength="2" Style="{StaticResource TextBoxStyle}"  HorizontalAlignment="Left" Margin="42,499,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Height="43" PreviewTextInput="TimeBox_TextInput"/>
+        <TextBox x:Name="MinuteBox" MaxLength="2" Style="{StaticResource TextBoxStyle}" HorizontalAlignment="Left" Margin="187,499,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Height="43" PreviewTextInput="TimeBox_TextInput"/>
         <Label x:Name="___Без_имени__Копировать2" Content="Часы" HorizontalAlignment="Left" Margin="53,468,0,0" VerticalAlignment="Top" Width="47" HorizontalContentAlignment="Center" Height="26"/>
         <Label x:Name="___Без_имени__Копировать3" Content="Минуты" HorizontalAlignment="Left" Margin="192,468,0,0" VerticalAlignment="Top" Width="60" Height="26" HorizontalContentAlignment="Center"/>
     </Grid>

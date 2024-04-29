@@ -5,11 +5,98 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TicketManagementUI"
         mc:Ignorable="d"
-        Title="TicketsBin" Height="447" Width="686">
+        Title="TicketsBin" Height="447" Width="686"
+        Closing="Window_Closing">
+    <Window.Resources>
+        <Style x:Key="CommonControlStyle" TargetType="Control">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#FFABC6D2" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+        <Style x:Key="ButtonStyle" TargetType="Button" BasedOn="{StaticResource CommonControlStyle}">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border x:Name="border"
+                    Background="{TemplateBinding Background}"
+                    CornerRadius="5"
+                    SnapsToDevicePixels="True">
+                                <ContentPresenter x:Name="contentPresenter"
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FF9ED0D4"/>
+                                            <GradientStop Color="#FFE1FEFF" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#0D47A1"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="#B0BEC5"/>
+                                <Setter Property="Foreground" Value="#757575"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ListViewStyle" TargetType="ListView" BasedOn="{StaticResource CommonControlStyle}">
+            <Setter Property="BorderBrush" Value="#B3E5FC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+
+        <Style x:Key="ListViewColumnHeaderStyle" TargetType="GridViewColumnHeader">
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="GridViewColumnHeader">
+                        <Border Background="{TemplateBinding Background}"
+                BorderThickness="0"
+                Padding="6"
+                SnapsToDevicePixels="True">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
-        <ListView x:Name="TicketsDataDisplay" Margin="47,88,47,160">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFABC6D2" Offset="0"/>
+                <GradientStop Color="White" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <ListView x:Name="TicketsDataDisplay" Style="{StaticResource ListViewStyle}" Margin="47,88,47,160">
             <ListView.View>
-                <GridView>
+                <GridView ColumnHeaderContainerStyle="{StaticResource ListViewColumnHeaderStyle}">
                     <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleInformation}">Информация о спектакле</GridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Type}">Тип билета</GridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Cost}">Стоимость</GridViewColumn>
@@ -17,9 +104,9 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="BuyButton" Content="Купить" HorizontalAlignment="Center" Margin="0,368,0,0" VerticalAlignment="Top" Click="BuyButton_Click" Height="35" Width="114" FontSize="20"/>
+        <Button x:Name="BuyButton" Style="{StaticResource ButtonStyle}" Content="Купить" HorizontalAlignment="Center" Margin="0,354,0,0" VerticalAlignment="Top" Click="BuyButton_Click" Height="35" Width="114" FontSize="20"/>
         <Label Content="Следующие билеты будут приобретены:" HorizontalAlignment="Center" Margin="0,22,0,0" VerticalAlignment="Top" Height="44" Width="464" FontSize="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <Label x:Name="PriceBox" Content="Общая стоимость: " HorizontalAlignment="Center" Margin="0,313,0,0" VerticalAlignment="Top" Width="204" Height="25" HorizontalContentAlignment="Center"/>
+        <Label x:Name="PriceBox" Content="Общая стоимость: " HorizontalAlignment="Center" Margin="0,298,0,0" VerticalAlignment="Top" Width="204" Height="25" HorizontalContentAlignment="Center"/>
 
     </Grid>
 </Window>

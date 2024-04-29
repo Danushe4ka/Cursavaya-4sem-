@@ -6,42 +6,304 @@
         xmlns:local="clr-namespace:TicketManagementUI"
         xmlns:DataAccess="clr-namespace:DBObjectsClassLibrary.DataAccess;assembly=DBObjectsClassLibrary" x:Class="TicketManagementUI.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="562" Width="983"
+        Title="MainWindow" Height="565" Width="983"
         Closing="MainWindow_Closing">
+    <Window.Resources>
+
+        <Style x:Key="CommonControlStyle" TargetType="Control">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#FFABC6D2" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+        <Style x:Key="ButtonStyle" TargetType="Button" BasedOn="{StaticResource CommonControlStyle}">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="5"
+                            SnapsToDevicePixels="True">
+                                <ContentPresenter x:Name="contentPresenter"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Center"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FF9ED0D4"/>
+                                            <GradientStop Color="#FFE1FEFF" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#0D47A1"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="#B0BEC5"/>
+                                <Setter Property="Foreground" Value="#757575"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
+                <Border x:Name="border"
+        Background="{TemplateBinding Background}"
+        Grid.ColumnSpan="2"
+        BorderBrush="{TemplateBinding BorderBrush}"
+        BorderThickness="{TemplateBinding BorderThickness}"
+        CornerRadius="5"/>
+                <Border x:Name="arrowBorder"
+        Grid.Column="1"
+        Background="Transparent"
+        BorderBrush="Transparent"
+        BorderThickness="1,1,1,1"
+        CornerRadius="5">
+                    <Path x:Name="arrow"
+          Width="8"
+          Height="5"
+          Fill="{TemplateBinding Foreground}"
+          VerticalAlignment="Center"
+          HorizontalAlignment="Center"
+          Data="M 0 0 L 4 4 L 8 0 Z"/>
+                </Border>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter TargetName="arrow" Property="Data" Value="M 0 4 L 4 0 L 8 4 Z"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="border" Property="Background" Value="#64B5F6"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter TargetName="border" Property="Background" Value="#42A5F5"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style x:Key="GenreComboBoxStyle" TargetType="ComboBox" BasedOn="{StaticResource CommonControlStyle}">
+            <Setter Property="BorderBrush" Value="#B3E5FC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="5,2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="5"
+                            SnapsToDevicePixels="True">
+                                <ToggleButton x:Name="toggleButton"
+                                      BorderThickness="0"
+                                      Background="{TemplateBinding Background}"
+                                      Grid.Column="2"
+                                      ClickMode="Press"
+                                      Focusable="False"
+                                      IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                                      Template="{StaticResource ComboBoxToggleButton}"/>
+                            </Border>
+                            <ContentPresenter x:Name="contentPresenter"
+                                      Margin="5,0,0,0"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Center"
+                                      Content="{TemplateBinding SelectionBoxItem}"/>
+                            <TextBox x:Name="PART_EditableTextBox"
+                             Visibility="Hidden"
+                             IsReadOnly="{TemplateBinding IsReadOnly}"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Center"
+                             Style="{x:Null}"
+                             Margin="3,3,23,3"
+                             Focusable="True"
+                             Background="Transparent"
+                             Foreground="{TemplateBinding Foreground}"
+                             FontWeight="{TemplateBinding FontWeight}"
+                             FontSize="{TemplateBinding FontSize}"/>
+                            <Popup x:Name="popup"
+                           Placement="Bottom"
+                           IsOpen="{TemplateBinding IsDropDownOpen}"
+                           AllowsTransparency="True"
+                           Focusable="False"
+                           PopupAnimation="Slide">
+                                <Grid x:Name="DropDown"
+                              SnapsToDevicePixels="True"
+                              MinWidth="{TemplateBinding ActualWidth}"
+                              MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border x:Name="DropDownBorder"
+                                    Background="White"
+                                    BorderThickness="1"
+                                    BorderBrush="#B3E5FC"/>
+                                    <ScrollViewer Margin="4,6,4,6"
+                                          SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True"
+                                            KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="#E0E0E0"/>
+                            </Trigger>
+                            <Trigger Property="IsGrouping" Value="True">
+                                <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
+                            </Trigger>
+                            <Trigger SourceName="popup" Property="Popup.AllowsTransparency" Value="True">
+                                <Setter TargetName="DropDownBorder" Property="CornerRadius" Value="0,0,4,4"/>
+                                <Setter TargetName="DropDownBorder" Property="Margin" Value="0,-1,0,0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="HeaderStyle" TargetType="TabItem">
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Grid>
+                            <Border x:Name="border"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            CornerRadius="5">
+                                <ContentPresenter x:Name="contentPresenter"
+                                          Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          ContentSource="Header"
+                                          RecognizesAccessKey="True"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#B3E5FC"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#B3E5FC"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="False"/>
+                                    <Condition Property="IsMouseOver" Value="True"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="border" Property="Background" Value="#E3F2FD"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#B3E5FC"/>
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="False"/>
+                                    <Condition Property="IsMouseOver" Value="False"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="border" Property="Background" Value="Transparent"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="Transparent"/>
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ListViewStyle" TargetType="ListView" BasedOn="{StaticResource CommonControlStyle}">
+            <Setter Property="BorderBrush" Value="#B3E5FC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+
+        <Style x:Key="ListViewColumnHeaderStyle" TargetType="GridViewColumnHeader">
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="GridViewColumnHeader">
+                        <Border Background="{TemplateBinding Background}"
+                        BorderThickness="0"
+                        Padding="6"
+                        SnapsToDevicePixels="True">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
     <Grid Margin="0,0,0,-6">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFABC6D2" Offset="0"/>
+                <GradientStop Color="White" Offset="0.267"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="0*"/>
         </Grid.ColumnDefinitions>
         <TabControl>
-            <TabItem Header="Афиша">
+            <TabControl.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="#FFABC6D2" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </TabControl.Background>
+            <TabItem Header="Афиша" Style="{StaticResource HeaderStyle}">
                 <Grid>
-                <ListView x:Name="MainDataDisplay" Margin="46,34,48,161" SelectionMode="Single" SelectionChanged="MainDataDisplay_SelectionChanged">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleName}">Название спектакля</GridViewColumn>
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleAuthor}">Автор спектакля</GridViewColumn>
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=Genre}">Жанр спектакля</GridViewColumn>
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleDate}">Дата и время спектакля</GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-                <Button x:Name="ChangeUserButton" Content="Сменить пользователя" HorizontalAlignment="Left" Margin="807,396,0,0" VerticalAlignment="Top" Height="34" Width="128" Click="ChangeUserButton_Click"/>
-                <ComboBox x:Name="DateChoosementBox" HorizontalAlignment="Left" Margin="46,380,0,0" VerticalAlignment="Top" Width="120" Text="Дата представления" SelectionChanged="DateChoosementBox_SelectionChanged"/>
-                <Button x:Name="ChooseDateButton" Content="Выбрать дату" HorizontalAlignment="Left" Margin="46,413,0,0" VerticalAlignment="Top" Height="20" Width="120" Click="ChooseDateButton_Click" IsEnabled="False"/>
-                <Button x:Name="ChooseGenreButton" Content="Выбрать жанр" HorizontalAlignment="Left" Margin="226,413,0,0" VerticalAlignment="Top" Height="20" Width="120" Click="ChooseGenreButton_Click" IsEnabled="False"/>
-                <ComboBox x:Name="GenreChoosementBox" HorizontalAlignment="Left" Margin="226,380,0,0" VerticalAlignment="Top" Width="120" Text="Жанр представления" SelectionChanged="GenreChoosementBox_SelectionChanged"/>
-                <Button x:Name="ChooseAll" Content="Обновить" HorizontalAlignment="Center" Margin="0,396,0,0" VerticalAlignment="Top" Height="20" Width="120" Click="ChooseAll_Click"/>
-                <ComboBox x:Name="CategoryChoosementBox" HorizontalAlignment="Left" Margin="46,458,0,0" VerticalAlignment="Top" Width="120" Text="Категория билета" SelectionChanged="CategoryChoosementBox_SelectionChanged"/>
-                <Button x:Name="ChooseCategoryButton" Content="Выбрать по свободным местам" HorizontalAlignment="Left" Margin="204,460,0,0" VerticalAlignment="Top" Height="20" Width="181" Click="ChooseCategoryButton_Click" IsEnabled="False"/>
-                <Button x:Name="TicketBuyButton" Content="Купить билет" HorizontalAlignment="Center" Margin="0,430,0,0" VerticalAlignment="Top" Height="39" Width="122" Click="TicketBuyButton_Click" Visibility="Hidden" IsEnabled="False"/>
-            </Grid>
-            </TabItem>
-            <TabItem x:Name="UserTicketsInfo" Header="Приобретённые билеты" IsEnabled="False" Visibility="Hidden">
-                <Grid>
-                    <ListView x:Name="TicketsDataDisplay" Margin="46,34,48,161">
+                    <ListView x:Name="MainDataDisplay" Style="{StaticResource ListViewStyle}" Margin="46,34,48,161" SelectionMode="Single" SelectionChanged="MainDataDisplay_SelectionChanged">
                         <ListView.View>
-                            <GridView>
+                            <GridView ColumnHeaderContainerStyle="{StaticResource ListViewColumnHeaderStyle}">
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleName}">Название спектакля</GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleAuthor}">Автор спектакля</GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Genre}">Жанр спектакля</GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleDate}">Дата и время спектакля</GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button x:Name="ChangeUserButton" Style="{StaticResource ButtonStyle}" Content="Сменить пользователя" HorizontalAlignment="Left" Margin="778,396,0,0" VerticalAlignment="Top" Height="34" Width="157" Click="ChangeUserButton_Click"/>
+                    <ComboBox Style="{StaticResource GenreComboBoxStyle}" x:Name="DateChoosementBox" HorizontalAlignment="Left" Margin="46,380,0,0" VerticalAlignment="Top" Width="120" Text="Дата представления" SelectionChanged="DateChoosementBox_SelectionChanged"/>
+                    <Button x:Name="ChooseDateButton" Style="{StaticResource ButtonStyle}" Content="Выбрать дату" HorizontalAlignment="Left" Margin="46,413,0,0" VerticalAlignment="Top" Height="20" Width="120" Click="ChooseDateButton_Click" IsEnabled="False"/>
+                    <Button x:Name="ChooseGenreButton" Style="{StaticResource ButtonStyle}" Content="Выбрать жанр" HorizontalAlignment="Left" Margin="226,413,0,0" VerticalAlignment="Top" Height="20" Width="120" Click="ChooseGenreButton_Click" IsEnabled="False"/>
+                    <ComboBox Style="{StaticResource GenreComboBoxStyle}" x:Name="GenreChoosementBox" HorizontalAlignment="Left" Margin="226,380,0,0" VerticalAlignment="Top" Width="120" Text="Жанр представления" SelectionChanged="GenreChoosementBox_SelectionChanged"/>
+                    <Button x:Name="ChooseAll" Style="{StaticResource ButtonStyle}" Content="Обновить" HorizontalAlignment="Left" Margin="488,396,0,0" VerticalAlignment="Top" Height="20" Width="120" Click="ChooseAll_Click"/>
+                    <ComboBox Style="{StaticResource GenreComboBoxStyle}" x:Name="CategoryChoosementBox" HorizontalAlignment="Left" Margin="46,458,0,0" VerticalAlignment="Top" Width="120" Text="Категория билета" SelectionChanged="CategoryChoosementBox_SelectionChanged"/>
+                    <Button x:Name="ChooseCategoryButton" Style="{StaticResource ButtonStyle}" Content="Выбрать по свободным местам" HorizontalAlignment="Left" Margin="204,460,0,0" VerticalAlignment="Top" Height="20" Width="218" Click="ChooseCategoryButton_Click" IsEnabled="False"/>
+                    <Button x:Name="TicketBuyButton" Style="{StaticResource ButtonStyle}" Content="Купить билет" HorizontalAlignment="Left" Margin="486,441,0,0" VerticalAlignment="Top" Height="39" Width="122" Click="TicketBuyButton_Click" Visibility="Hidden" IsEnabled="False"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="UserTicketsInfo" Header="Приобретённые билеты" Style="{StaticResource HeaderStyle}" IsEnabled="False" Visibility="Hidden">
+                <Grid>
+                    <ListView x:Name="TicketsDataDisplay" Style="{StaticResource ListViewStyle}" Margin="46,34,48,161">
+                        <ListView.View>
+                            <GridView ColumnHeaderContainerStyle="{StaticResource ListViewColumnHeaderStyle}">
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleInformation}">Информация о спектакле</GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Type}">Тип билета</GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Cost}">Стоимость</GridViewColumn>
@@ -51,14 +313,14 @@
                         </ListView.View>
                     </ListView>
                     <TextBlock TextAlignment="Center" Margin="0,380,0,0" FontSize="16" HorizontalAlignment="Center" Foreground="Red">Внимание! За доставленные заказы средства не возвращаются!</TextBlock>
-                    <Button x:Name="ReturnTicketButton" Content="Отменить заказ" HorizontalAlignment="Center" Margin="0,430,0,0" VerticalAlignment="Top" Height="39" Width="122" Click="ReturnTicketButton_Click"/>
+                    <Button x:Name="ReturnTicketButton" Style="{StaticResource ButtonStyle}" Content="Отменить заказ" HorizontalAlignment="Center" Margin="0,430,0,0" VerticalAlignment="Top" Height="39" Width="122" Click="ReturnTicketButton_Click"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="CourierInfo" Header="Заказы" IsEnabled="False" Visibility="Hidden">
+            <TabItem x:Name="CourierInfo" Header="Заказы" Style="{StaticResource HeaderStyle}" IsEnabled="False" Visibility="Hidden">
                 <Grid>
-                    <ListView x:Name="OrdersDataDisplay" Margin="46,34,48,161">
+                    <ListView x:Name="OrdersDataDisplay" Style="{StaticResource ListViewStyle}" Margin="46,34,48,161">
                         <ListView.View>
-                            <GridView>
+                            <GridView ColumnHeaderContainerStyle="{StaticResource ListViewColumnHeaderStyle}">
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=UserName}">Владелец билета</GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleInformation}">Информация о спектакле</GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Type}">Тип билета</GridViewColumn>
@@ -66,29 +328,29 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Button x:Name="ConfrimOrderButton" Content="Подтвердить заказ" HorizontalAlignment="Center" Margin="0,430,0,0" VerticalAlignment="Top" Height="39" Width="122" Click="ConfrimOrderButton_Click"/>
+                    <Button x:Name="ConfrimOrderButton" Style="{StaticResource ButtonStyle}" Content="Подтвердить заказ" HorizontalAlignment="Center" Margin="0,430,0,0" VerticalAlignment="Top" Height="39" Width="130" Click="ConfrimOrderButton_Click"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="UsersInfo" Header="Пользователи" IsEnabled="False" Visibility="Hidden">
+            <TabItem x:Name="UsersInfo" Header="Пользователи" Style="{StaticResource HeaderStyle}" IsEnabled="False" Visibility="Hidden">
                 <Grid>
-                    <ListView x:Name="UsersDataDisplay" Margin="46,34,48,161" SelectionMode="Single">
+                    <ListView x:Name="UsersDataDisplay" Style="{StaticResource ListViewStyle}" Margin="46,34,48,161" SelectionMode="Single">
                         <ListView.View>
-                            <GridView>
+                            <GridView ColumnHeaderContainerStyle="{StaticResource ListViewColumnHeaderStyle}">
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=UserName}">Имя пользователя</GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Password}">Пароль</GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Role}">Роль</GridViewColumn>
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Button x:Name="DeleteUserButton" Content="Удалить пользователя" HorizontalAlignment="Center" Margin="0,430,300,0" VerticalAlignment="Top" Height="39" Width="122" Click="DeleteUserButton_Click"/>
-                    <Button x:Name="CreateCourierButton" Content="Добавить курьера" HorizontalAlignment="Center" Margin="300,430,0,0" VerticalAlignment="Top" Height="39" Width="122" Click="CreateCourierButton_Click"/>
+                    <Button x:Name="DeleteUserButton" Style="{StaticResource ButtonStyle}" Content="Удалить пользователя" HorizontalAlignment="Center" Margin="0,430,300,0" VerticalAlignment="Top" Height="39" Width="150" Click="DeleteUserButton_Click"/>
+                    <Button x:Name="CreateCourierButton" Style="{StaticResource ButtonStyle}" Content="Добавить курьера" HorizontalAlignment="Center" Margin="300,430,0,0" VerticalAlignment="Top" Height="39" Width="150" Click="CreateCourierButton_Click"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="SpectaclesInfo" Header="Спектакли" IsEnabled="False" Visibility="Hidden">
+            <TabItem x:Name="SpectaclesInfo" Header="Спектакли" Style="{StaticResource HeaderStyle}" IsEnabled="False" Visibility="Hidden">
                 <Grid>
-                    <ListView x:Name="SpectaclesDataDisplay" Margin="46,34,48,161" SelectionMode="Single">
+                    <ListView x:Name="SpectaclesDataDisplay" Style="{StaticResource ListViewStyle}" Margin="46,34,48,161" SelectionMode="Single">
                         <ListView.View>
-                            <GridView>
+                            <GridView ColumnHeaderContainerStyle="{StaticResource ListViewColumnHeaderStyle}">
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleName}">Название спектакля</GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleAuthor}">Автор спектакля</GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Genre}">Жанр спектакля</GridViewColumn>
@@ -96,18 +358,18 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Button x:Name="DeleteSpectacleButton" Content="Удалить спектакль" HorizontalAlignment="Center" Margin="0,430,500,0" VerticalAlignment="Top" Height="39" Width="122" Click="DeleteSpectacleButton_Click"/>
-                    <Button x:Name="CreateSpectacleButton" Content="Добавить спектакль" HorizontalAlignment="Center" Margin="500,430,0,0" VerticalAlignment="Top" Height="39" Width="122" Click="CreateSpectacleButton_Click"/>
-                    <Button x:Name="ChangeTicketCategoryPriceButton" Content="Изменить цены на типы билетов" HorizontalAlignment="Center" Margin="0,430,0,0" VerticalAlignment="Top" Height="39" Width="200" Click="ChangeTicketCategoryPriceButton_Click"/>
+                    <Button x:Name="DeleteSpectacleButton" Style="{StaticResource ButtonStyle}" Content="Удалить спектакль" HorizontalAlignment="Center" Margin="0,430,500,0" VerticalAlignment="Top" Height="39" Width="140" Click="DeleteSpectacleButton_Click"/>
+                    <Button x:Name="CreateSpectacleButton" Style="{StaticResource ButtonStyle}" Content="Добавить спектакль" HorizontalAlignment="Center" Margin="500,430,0,0" VerticalAlignment="Top" Height="39" Width="140" Click="CreateSpectacleButton_Click"/>
+                    <Button x:Name="ChangeTicketCategoryPriceButton" Style="{StaticResource ButtonStyle}" Content="Изменить цены на типы билетов" HorizontalAlignment="Center" Margin="0,430,0,0" VerticalAlignment="Top" Height="39" Width="220" Click="ChangeTicketCategoryPriceButton_Click"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="Reports" Header="Отчёты" IsEnabled="False" Visibility="Hidden">
+            <TabItem x:Name="Reports" Header="Отчёты" Style="{StaticResource HeaderStyle}" IsEnabled="False" Visibility="Hidden">
                 <Grid>
-                    <TextBox x:Name="ReportsDisplay" Margin="46,34,48,161" IsReadOnly="True"/>
-                    <Button x:Name="TotalSalesButton" Content="Общий отчёт по продажам" HorizontalAlignment="Center" Margin="0,400,0,0" VerticalAlignment="Top" Height="39" Width="160" Click="CreateMainReport_Click"/>
-                    <Button x:Name="TicketTypeSalesButton" Content="Отчёт по продажам каждого типа билета" HorizontalAlignment="Center" Margin="600,430,0,0" VerticalAlignment="Top" Height="39" Width="250" Click="CreateTicketReport_Click"/>
-                    <Button x:Name="SpectaclesSalesButton" Content="Отчёт по продажам за каждый спектакль" HorizontalAlignment="Center" Margin="0,430,600,0" VerticalAlignment="Top" Height="39" Width="250" Click="CreateSpectaclesReport_Click"/>
-                    <Button x:Name="SaveReportButton" Content="Сохранить .txt" HorizontalAlignment="Center" Margin="0,460,0,0" VerticalAlignment="Top" Height="30" Width="160" Click="SaveReportButton_Click"/>
+                    <TextBox x:Name="ReportsDisplay" HorizontalContentAlignment="Center" Margin="46,34,48,161" IsReadOnly="True"/>
+                    <Button x:Name="TotalSalesButton" Style="{StaticResource ButtonStyle}" Content="Общий отчёт по продажам" HorizontalAlignment="Center" Margin="0,400,0,0" VerticalAlignment="Top" Height="39" Width="190" Click="CreateMainReport_Click"/>
+                    <Button x:Name="TicketTypeSalesButton" Style="{StaticResource ButtonStyle}" Content="Отчёт по продажам каждого типа билета" HorizontalAlignment="Center" Margin="600,430,0,0" VerticalAlignment="Top" Height="39" Width="280" Click="CreateTicketReport_Click"/>
+                    <Button x:Name="SpectaclesSalesButton" Style="{StaticResource ButtonStyle}" Content="Отчёт по продажам за каждый спектакль" HorizontalAlignment="Center" Margin="0,430,600,0" VerticalAlignment="Top" Height="39" Width="280" Click="CreateSpectaclesReport_Click"/>
+                    <Button x:Name="SaveReportButton" Style="{StaticResource ButtonStyle}" Content="Сохранить .txt" HorizontalAlignment="Center" Margin="0,460,0,0" VerticalAlignment="Top" Height="30" Width="160" Click="SaveReportButton_Click"/>
                 </Grid>
             </TabItem>
         </TabControl>

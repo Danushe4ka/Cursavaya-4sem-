@@ -37,7 +37,14 @@ namespace TicketManagementUI
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                Bin.GetInstance.ClearBin();
+                this.Close();
             }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Bin.GetInstance.ClearBin();
         }
     }
 }

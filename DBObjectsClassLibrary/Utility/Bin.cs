@@ -16,7 +16,7 @@ namespace DBObjectsClassLibrary.Utility
         /// <summary>
         /// Список билетов в корзине
         /// </summary>
-        List<Ticket> _ticketList;
+        readonly List<Ticket> _ticketList;
         /// <summary>
         /// Конструктор класса TicketBin
         /// </summary>
