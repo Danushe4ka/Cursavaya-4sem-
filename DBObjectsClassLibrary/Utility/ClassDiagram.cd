@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="DBObjectsClassLibrary.DataAccess.CommonManager&lt;T&gt;" Collapsed="true">
-    <Position X="14.5" Y="5" Width="1.5" />
+    <Position X="21" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAAAAAAAAgAAEAAEAAAAAAABAABAA=</HashCode>
       <FileName>DataAccess\CommonManager.cs</FileName>
@@ -9,14 +9,14 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="DBObjectsClassLibrary.DataAccess.SpectaclesManager" Collapsed="true">
-    <Position X="16.75" Y="6.25" Width="1.5" />
+    <Position X="23.25" Y="8" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAAAAAAAAgAAEAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>DataAccess\SpectaclesManager.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DBObjectsClassLibrary.DataAccess.TicketsManager" Collapsed="true">
-    <Position X="12.25" Y="6.25" Width="1.5" />
+    <Position X="18.75" Y="8" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAAAAAAAAgAAEAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>DataAccess\TicketsManager.cs</FileName>
@@ -30,7 +30,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="DBObjectsClassLibrary.DataAccess.UsersManager" Collapsed="true">
-    <Position X="14.5" Y="6.25" Width="1.5" />
+    <Position X="21" Y="8" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAAAAAAAAgAAEAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>DataAccess\UsersManager.cs</FileName>
@@ -67,7 +67,7 @@
   <Class Name="DBObjectsClassLibrary.Models.Spectacle" Collapsed="true">
     <Position X="7.5" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ACAAAAAAAAAAAAAAAEIAAAAAAACAAQAAgAAAAAAAAEA=</HashCode>
+      <HashCode>ACAAAAAAAAAAAAAAAEIAAAAAAACAAQAAgAABAAAAAEA=</HashCode>
       <FileName>Models\Spectacles\Spectacle.cs</FileName>
     </TypeIdentifier>
   </Class>
