@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TicketManagementUI"
         mc:Ignorable="d"
-        Title="CreateNewSpectacle" Height="633" Width="298">
+        Title="CreateNewSpectacle" Height="581" Width="298">
     <Window.Resources>
 
         <Style x:Key="CommonControlStyle" TargetType="Control">
@@ -220,11 +220,7 @@
         <Label x:Name="___Без_имени__Копировать" Content="Жанр" HorizontalAlignment="Center" Margin="0,259,0,0" VerticalAlignment="Top" Width="94" HorizontalContentAlignment="Center"/>
         <Label x:Name="___Без_имени__Копировать1" Content="Дата" HorizontalAlignment="Center" Margin="0,378,0,0" VerticalAlignment="Top" Width="94" HorizontalContentAlignment="Center"/>
         <DatePicker x:Name="SpectacleDatePicker" HorizontalAlignment="Center" Margin="0,424,0,0" VerticalAlignment="Top" Width="146" Background="{x:Null}" Foreground="#FF333333"/>
-        <Button x:Name="CreateSpectacleButton" Style="{StaticResource ButtonStyle}" Content="Создать" HorizontalAlignment="Center" Margin="0,560,0,0" VerticalAlignment="Top" Height="26" Width="94" Click="CreateSpectacleButton_Click"/>
+        <Button x:Name="CreateSpectacleButton" Style="{StaticResource ButtonStyle}" Content="Создать" HorizontalAlignment="Center" Margin="0,491,0,0" VerticalAlignment="Top" Height="26" Width="94" Click="CreateSpectacleButton_Click"/>
         <ComboBox x:Name="SpectacleGenreBox" Style="{StaticResource ComboBoxStyle}" HorizontalAlignment="Center" Margin="0,335,0,0" VerticalAlignment="Top" Width="244" Height="25" SelectedIndex="0"/>
-        <TextBox x:Name="HourBox" MaxLength="2" Style="{StaticResource TextBoxStyle}"  HorizontalAlignment="Left" Margin="42,499,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Height="43" PreviewTextInput="TimeBox_TextInput"/>
-        <TextBox x:Name="MinuteBox" MaxLength="2" Style="{StaticResource TextBoxStyle}" HorizontalAlignment="Left" Margin="187,499,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Height="43" PreviewTextInput="TimeBox_TextInput"/>
-        <Label x:Name="___Без_имени__Копировать2" Content="Часы" HorizontalAlignment="Left" Margin="53,468,0,0" VerticalAlignment="Top" Width="47" HorizontalContentAlignment="Center" Height="26"/>
-        <Label x:Name="___Без_имени__Копировать3" Content="Минуты" HorizontalAlignment="Left" Margin="192,468,0,0" VerticalAlignment="Top" Width="60" Height="26" HorizontalContentAlignment="Center"/>
     </Grid>
 </Window>

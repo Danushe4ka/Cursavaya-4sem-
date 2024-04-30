@@ -35,6 +35,10 @@ namespace DBObjectsClassLibrary.Models
         /// </summary>
         public DateTime SpectacleDate { get => _spectacleDate; }
         /// <summary>
+        /// Свойство для получения только даты в виде строки
+        /// </summary>
+        public string SpectacleDateString { get => _spectacleDate.ToShortDateString(); }
+        /// <summary>
         /// Свойство для получения наименования жанра спектакля
         /// </summary>
         public abstract string Genre { get; }

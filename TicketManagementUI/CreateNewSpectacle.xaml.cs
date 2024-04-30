@@ -35,7 +35,7 @@ namespace TicketManagementUI
                 if (SpectacleNameBox.Text != string.Empty && SpectacleAuthorBox.Text != string.Empty && SpectacleDatePicker.SelectedDate != null)
                 {
                     DateTime dateCal = Convert.ToDateTime(SpectacleDatePicker.SelectedDate);
-                    DateTime date = new DateTime(dateCal.Year, dateCal.Month, dateCal.Day, Convert.ToInt32(HourBox.Text), Convert.ToInt32(MinuteBox.Text), 0);
+                    DateTime date = new DateTime(dateCal.Year, dateCal.Month, dateCal.Day);
                     switch (SpectacleGenreBox.SelectedItem.ToString())
                     {
                         case "Трагедия":

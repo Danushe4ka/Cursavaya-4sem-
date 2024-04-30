@@ -284,7 +284,7 @@
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleName}">Название спектакля</GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleAuthor}">Автор спектакля</GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Genre}">Жанр спектакля</GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleDate}">Дата и время спектакля</GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleDateString}">Дата спектакля</GridViewColumn>
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -354,7 +354,7 @@
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleName}">Название спектакля</GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleAuthor}">Автор спектакля</GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Genre}">Жанр спектакля</GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleDate}">Дата и время спектакля</GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=SpectacleDateString}">Дата спектакля</GridViewColumn>
                             </GridView>
                         </ListView.View>
                     </ListView>
