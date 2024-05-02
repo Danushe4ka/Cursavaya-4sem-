@@ -45,6 +45,9 @@ namespace DBObjectsClassLibrary.Utility
         /// Свойство для получения ссылки на объект TicketBin
         /// </summary>
         public static Bin GetInstance { get => _instance.Value; }
+        /// <summary>
+        /// Свойство для получения списка билетов из корзины
+        /// </summary>
         public List<Ticket> GetBin {  get => _ticketList; }
     }
 }

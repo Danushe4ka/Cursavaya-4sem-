@@ -297,6 +297,9 @@
                     <ComboBox Style="{StaticResource GenreComboBoxStyle}" x:Name="CategoryChoosementBox" HorizontalAlignment="Left" Margin="46,458,0,0" VerticalAlignment="Top" Width="120" Text="Категория билета" SelectionChanged="CategoryChoosementBox_SelectionChanged"/>
                     <Button x:Name="ChooseCategoryButton" Style="{StaticResource ButtonStyle}" Content="Выбрать по свободным местам" HorizontalAlignment="Left" Margin="204,460,0,0" VerticalAlignment="Top" Height="20" Width="218" Click="ChooseCategoryButton_Click" IsEnabled="False"/>
                     <Button x:Name="TicketBuyButton" Style="{StaticResource ButtonStyle}" Content="Купить билет" HorizontalAlignment="Left" Margin="486,441,0,0" VerticalAlignment="Top" Height="39" Width="122" Click="TicketBuyButton_Click" Visibility="Hidden" IsEnabled="False"/>
+                    <Button x:Name="BinButton" Style="{StaticResource ButtonStyle}" HorizontalAlignment="Left" Margin="834,438,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.594,-0.148" Height="44" Width="45" Visibility="Hidden" IsEnabled="False" Click="BinButton_Click">
+                        <Image HorizontalAlignment="Center" Height="40" VerticalAlignment="Top" Width="40" Source="/3081797.png"/>
+                    </Button>
                 </Grid>
             </TabItem>
             <TabItem x:Name="UserTicketsInfo" Header="Приобретённые билеты" Style="{StaticResource HeaderStyle}" IsEnabled="False" Visibility="Hidden">

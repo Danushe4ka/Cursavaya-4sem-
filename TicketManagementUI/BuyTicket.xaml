@@ -62,7 +62,7 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <Button x:Name="BuyButton" Style="{StaticResource ButtonStyle}" Content="Купить" HorizontalAlignment="Center" Margin="0,455,0,0" VerticalAlignment="Top" Height="31" Width="107" Click="BuyButton_Click" IsEnabled="False"/>
+        <Button x:Name="BuyButton" Style="{StaticResource ButtonStyle}" Content="В корзину" HorizontalAlignment="Center" Margin="0,455,0,0" VerticalAlignment="Top" Height="31" Width="107" Click="BuyButton_Click" IsEnabled="False"/>
         <Canvas x:Name="ParterPlaces"  Margin="26,36,26,329" >
             <Button Content="1" BorderThickness="1" BorderBrush="Aquamarine" Canvas.Left="30" Canvas.Top="27" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Width="35" Height="35" HorizontalAlignment="Center" VerticalAlignment="Top" Background="White" Click="ParterButton_Click"/>
             <Button Content="2" BorderThickness="1" BorderBrush="Aquamarine" Canvas.Left="70" Canvas.Top="27" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Width="35" Height="35" HorizontalAlignment="Left" VerticalAlignment="Center" Background="White" Click="ParterButton_Click"/>

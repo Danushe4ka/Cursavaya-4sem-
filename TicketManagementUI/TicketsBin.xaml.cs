@@ -1,4 +1,5 @@
 ﻿using DBObjectsClassLibrary.DataAccess;
+using DBObjectsClassLibrary.Models;
 using DBObjectsClassLibrary.Utility;
 using System;
 using System.Linq;
@@ -17,11 +18,10 @@ namespace TicketManagementUI
         public TicketsBin()
         {
             InitializeComponent();
-            TicketsDataDisplay.ItemsSource = Bin.GetInstance.GetBin.OrderBy(t => t.Type).ThenBy(t => t.Place);
-            PriceBox.Content += Bin.GetInstance.GetBin.Sum(t => t.Cost).ToString();
+            UpdateTickets();
         }
         /// <summary>
-        /// Кнопка покупки
+        /// Кнопка покупки билетов
         /// </summary>
         private void BuyButton_Click(object sender, RoutedEventArgs e)
         {
@@ -41,10 +41,24 @@ namespace TicketManagementUI
                 this.Close();
             }
         }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        /// <summary>
+        /// Кнопка удаления выбранных билетов
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            Bin.GetInstance.ClearBin();
+            foreach(Ticket ticket in TicketsDataDisplay.SelectedItems)
+                Bin.GetInstance.RemoveFromBin(ticket);
+            UpdateTickets();
+        }
+        /// <summary>
+        /// Метод обновления информации о билетах и общей стоимости 
+        /// </summary>
+        private void UpdateTickets()
+        {
+            TicketsDataDisplay.ItemsSource = Bin.GetInstance.GetBin.OrderBy(t => t.Type).ThenBy(t => t.Place);
+            PriceBox.Content = Bin.GetInstance.GetBin.Sum(t => t.Cost).ToString();
         }
     }
 }

@@ -44,6 +44,8 @@ namespace TicketManagementUI
             _beletageFreePlaces = FreePlacesByType("Бельэтаж");
             InitializeComponent();
             UpdateTheatrePlaces();
+            if(Bin.GetInstance.GetBin.Count() > 0)
+                UpdateTheatrePlacesByBin();
         }
         /// <summary>
         /// Кнопка перехода в окно покупки выбранных мест
@@ -56,8 +58,6 @@ namespace TicketManagementUI
                 Bin.GetInstance.AddToBin(new AmphitheatreTicket(_user, _spectacle, _typesManager.GetTicketTypePrice("Амфитеатр"), place, _typesManager.GetTicketTypePlaceAmount("Амфитеатр")));
             foreach (int place in _beletageSelectedPlaces)
                 Bin.GetInstance.AddToBin(new BeletageTicket(_user, _spectacle, _typesManager.GetTicketTypePrice("Бельэтаж"), place, _typesManager.GetTicketTypePlaceAmount("Бельэтаж")));
-            TicketsBin ticketsBin = new TicketsBin();
-            ticketsBin.ShowDialog();
             this.Close();
         }
         /// <summary>
@@ -101,6 +101,32 @@ namespace TicketManagementUI
                     else if (BeletagePlaces.Children[i - 1] != null && ticket.Type == "Бельэтаж")
                     {
                         BeletagePlaces.Children[i - 1].Opacity = 0.2;
+                        BeletagePlaces.Children[i - 1].IsEnabled = false;
+                    }
+                }
+        }
+        /// <summary>
+        /// Метод для сокрытия добавленных в корзину мест
+        /// </summary>
+        private void UpdateTheatrePlacesByBin()
+        {
+            for (int i = 1; i <= 25; i++)
+                foreach (Ticket ticket in Bin.GetInstance.GetBin.Where(t => t.Spectacle.SpectacleDate == _spectacle.SpectacleDate && t.Place == i && t.Type == "Партер" && ParterPlaces.Children[i - 1] != null))
+                {
+                    ParterPlaces.Children[i - 1].Opacity = 0.5;
+                    ParterPlaces.Children[i - 1].IsEnabled = false;
+                }
+            for (int i = 1; i <= 10; i++)
+                foreach (Ticket ticket in Bin.GetInstance.GetBin.Where(t => t.Spectacle.SpectacleDate == _spectacle.SpectacleDate && t.Place == i))
+                {
+                    if (AmphitheatrePlaces.Children[i - 1] != null && ticket.Type == "Амфитеатр")
+                    {
+                        BeletagePlaces.Children[i - 1].Opacity = 0.5;
+                        AmphitheatrePlaces.Children[i - 1].IsEnabled = false;
+                    }
+                    else if (BeletagePlaces.Children[i - 1] != null && ticket.Type == "Бельэтаж")
+                    {
+                        BeletagePlaces.Children[i - 1].Opacity = 0.5;
                         BeletagePlaces.Children[i - 1].IsEnabled = false;
                     }
                 }

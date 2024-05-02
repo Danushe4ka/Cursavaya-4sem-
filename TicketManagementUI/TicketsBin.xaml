@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TicketManagementUI"
         mc:Ignorable="d"
-        Title="Подтверждение покупки" Height="447" Width="686"
-        Closing="Window_Closing">
+        Title="Подтверждение покупки" Height="447" Width="686">
     <Window.Resources>
         <Style x:Key="CommonControlStyle" TargetType="Control">
             <Setter Property="Background">
@@ -104,9 +103,10 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="BuyButton" Style="{StaticResource ButtonStyle}" Content="Купить" HorizontalAlignment="Center" Margin="0,354,0,0" VerticalAlignment="Top" Click="BuyButton_Click" Height="35" Width="114" FontSize="20"/>
+        <Button x:Name="BuyButton" Style="{StaticResource ButtonStyle}" Content="Купить" HorizontalAlignment="Left" Margin="461,354,0,0" VerticalAlignment="Top" Click="BuyButton_Click" Height="35" Width="114" FontSize="20"/>
         <Label Content="Следующие билеты будут приобретены:" HorizontalAlignment="Center" Margin="0,22,0,0" VerticalAlignment="Top" Height="44" Width="464" FontSize="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <Label x:Name="PriceBox" Content="Общая стоимость: " HorizontalAlignment="Center" Margin="0,298,0,0" VerticalAlignment="Top" Width="204" Height="25" HorizontalContentAlignment="Center"/>
+        <Button x:Name="DeleteButton" Style="{StaticResource ButtonStyle}" Content="Отменить" HorizontalAlignment="Left" Margin="111,354,0,0" VerticalAlignment="Top" Click="DeleteButton_Click" Height="35" Width="114" FontSize="20"/>
 
     </Grid>
 </Window>

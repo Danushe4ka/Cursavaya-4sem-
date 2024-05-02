@@ -46,38 +46,43 @@ namespace DBObjectsClassLibrary.DataAccess
         }
         public override void Create(Ticket ticket)
         {
-            _command.Parameters.Clear();
-            string command = $"select GetUserId('{ticket.User.UserName}')";
-            _command.CommandText = command;
-            int userId = Convert.ToInt32(_command.ExecuteScalar());
-            command = $"select GetSpectacleId('{ticket.Spectacle.SpectacleDate}')";
-            _command.CommandText = command;
-            int spectacleId = Convert.ToInt32(_command.ExecuteScalar());
-            command = $"insert into Tickets(UserId, SpectacleId, TypeId, Place) values(@userParam, @specParam, @typeParam, @placeParam);";
-            _command.CommandText = command;
-            NpgsqlParameter userParam = new NpgsqlParameter("@userParam", userId);
-            NpgsqlParameter specParam = new NpgsqlParameter("@specParam", spectacleId);
-            NpgsqlParameter typeParam;
-            switch(ticket.Type)
+            if (Read().Contains(ticket))
+                throw new Exception("Места уже куплены!");
+            else
             {
-                case "Партер":
-                    typeParam = new NpgsqlParameter("@typeParam", 1);
-                    break;
-                case "Амфитеатр":
-                    typeParam = new NpgsqlParameter("@typeParam", 2);
-                    break;
-                case "Бельэтаж":
-                    typeParam = new NpgsqlParameter("@typeParam", 3);
-                    break;
-                default:
-                    throw new Exception("DB reader malfunction!");
+                _command.Parameters.Clear();
+                string command = $"select GetUserId('{ticket.User.UserName}')";
+                _command.CommandText = command;
+                int userId = Convert.ToInt32(_command.ExecuteScalar());
+                command = $"select GetSpectacleId('{ticket.Spectacle.SpectacleDate}')";
+                _command.CommandText = command;
+                int spectacleId = Convert.ToInt32(_command.ExecuteScalar());
+                command = $"insert into Tickets(UserId, SpectacleId, TypeId, Place) values(@userParam, @specParam, @typeParam, @placeParam);";
+                _command.CommandText = command;
+                NpgsqlParameter userParam = new NpgsqlParameter("@userParam", userId);
+                NpgsqlParameter specParam = new NpgsqlParameter("@specParam", spectacleId);
+                NpgsqlParameter typeParam;
+                switch (ticket.Type)
+                {
+                    case "Партер":
+                        typeParam = new NpgsqlParameter("@typeParam", 1);
+                        break;
+                    case "Амфитеатр":
+                        typeParam = new NpgsqlParameter("@typeParam", 2);
+                        break;
+                    case "Бельэтаж":
+                        typeParam = new NpgsqlParameter("@typeParam", 3);
+                        break;
+                    default:
+                        throw new Exception("DB reader malfunction!");
+                }
+                NpgsqlParameter placeParam = new NpgsqlParameter("@placeParam", ticket.Place);
+                _command.Parameters.Add(userParam);
+                _command.Parameters.Add(specParam);
+                _command.Parameters.Add(typeParam);
+                _command.Parameters.Add(placeParam);
+                _command.ExecuteNonQuery();
             }
-            NpgsqlParameter placeParam = new NpgsqlParameter("@placeParam", ticket.Place);
-            _command.Parameters.Add(userParam);
-            _command.Parameters.Add(specParam);
-            _command.Parameters.Add(typeParam);
-            _command.Parameters.Add(placeParam);
-            _command.ExecuteNonQuery();
         }
         public override void Update(Ticket ticket)
         {

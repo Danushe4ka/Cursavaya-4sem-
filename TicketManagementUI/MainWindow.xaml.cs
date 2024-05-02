@@ -39,6 +39,7 @@ namespace TicketManagementUI
                 InitializeComponent();
                 CreateMainInterface();
                 TicketBuyButton.Visibility = Visibility.Visible;
+                BinButton.Visibility = Visibility.Visible;
                 switch (user.Role)
                 {
                     case ("Admin"):
@@ -176,6 +177,7 @@ namespace TicketManagementUI
             LoginWindow loginWindow = new LoginWindow();
             loginWindow.ShowDialog();
             this.Close();
+            Bin.GetInstance.ClearBin();
         }
         /// <summary>
         /// Кнопка сброса фильтров афиши
@@ -257,8 +259,22 @@ namespace TicketManagementUI
         {
              BuyTicket buyTicket = new BuyTicket(_user, ((Spectacle)MainDataDisplay.SelectedItem));
              buyTicket.ShowDialog();
+             if(Bin.GetInstance.GetBin.Count > 0)
+                BinButton.IsEnabled = true;
              UpdateUserInterface();
              UpdateCourierInterface();
+        }
+        /// <summary>
+        /// Кнопка открытия корзины
+        /// </summary>
+        private void BinButton_Click(object sender, RoutedEventArgs e)
+        {
+            TicketsBin ticketsBin = new TicketsBin();
+            ticketsBin.ShowDialog();
+            if(Bin.GetInstance.GetBin.Count < 1)
+                BinButton.IsEnabled = false;
+            UpdateUserInterface();
+            UpdateCourierInterface();
         }
         /// <summary>
         /// Кнопка возврата выбранного билета
