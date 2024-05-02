@@ -1,6 +1,7 @@
 ﻿using DBObjectsClassLibrary.DataAccess;
 using DBObjectsClassLibrary.Models;
 using DBObjectsClassLibrary.Models.Spectacles;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,7 +60,13 @@ namespace TicketManagementUI
                 else
                     MessageBox.Show("Все поля должны быть заполнены!");
             }
-            catch(Exception ex) {  MessageBox.Show(ex.Message); }
+            catch(Exception ex)
+            {
+                if (ex is NpgsqlException)
+                    MessageBox.Show("На данную дату спектакль уже поставлен!");
+                else
+                    MessageBox.Show(ex.Message); 
+            }
         }
         /// <summary>
         /// Обработчик события при вводе текста в окна для ввода часов и минут для допуска ввода только чисел
