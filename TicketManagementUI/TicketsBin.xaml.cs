@@ -27,12 +27,15 @@ namespace TicketManagementUI
         {
             try
             {
+                int count = 0;
                 foreach (var ticket in Bin.GetInstance.GetBin)
                 {
                     new TicketsManager().Create(ticket);
+                    count++;
                 }
                 Bin.GetInstance.ClearBin();
                 this.Close();
+                MessageBox.Show($"Куплено {count} билетов");
             }
             catch(Exception ex)
             {
@@ -58,7 +61,7 @@ namespace TicketManagementUI
         private void UpdateTickets()
         {
             TicketsDataDisplay.ItemsSource = Bin.GetInstance.GetBin.OrderBy(t => t.Type).ThenBy(t => t.Place);
-            PriceBox.Content = Bin.GetInstance.GetBin.Sum(t => t.Cost).ToString();
+            PriceBox.Content = "Общая стоимость: " + Bin.GetInstance.GetBin.Sum(t => t.Cost).ToString();
         }
     }
 }

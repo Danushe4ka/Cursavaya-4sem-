@@ -113,7 +113,6 @@ namespace TicketManagementUI
             for (int i = 1; i <= 25; i++)
                 foreach (Ticket ticket in Bin.GetInstance.GetBin.Where(t => t.Spectacle.SpectacleDate == _spectacle.SpectacleDate && t.Place == i && t.Type == "Партер" && ParterPlaces.Children[i - 1] != null))
                 {
-                    ParterPlaces.Children[i - 1].Opacity = 0.5;
                     ParterPlaces.Children[i - 1].IsEnabled = false;
                 }
             for (int i = 1; i <= 10; i++)
@@ -121,12 +120,10 @@ namespace TicketManagementUI
                 {
                     if (AmphitheatrePlaces.Children[i - 1] != null && ticket.Type == "Амфитеатр")
                     {
-                        BeletagePlaces.Children[i - 1].Opacity = 0.5;
                         AmphitheatrePlaces.Children[i - 1].IsEnabled = false;
                     }
                     else if (BeletagePlaces.Children[i - 1] != null && ticket.Type == "Бельэтаж")
                     {
-                        BeletagePlaces.Children[i - 1].Opacity = 0.5;
                         BeletagePlaces.Children[i - 1].IsEnabled = false;
                     }
                 }
