@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TicketManagementSustemTesting.UnitTestSpectaclesTesting">
+    <Position X="12.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAEAAAAgAAAAAAAAAAABAAAAAAAAIAAEAAIAAAAAA=</HashCode>
+      <FileName>UnitTestSpectaclesTesting.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TicketManagementSustemTesting.UnitTestTicketsTesting">
+    <Position X="10.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAgAAACAAAAAAABAAAAAAAAJAAEAAAAAAAAA=</HashCode>
+      <FileName>UnitTestTicketsTesting.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TicketManagementSustemTesting.UnitTestTicketTypesTesting">
+    <Position X="7" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAEAAAAAAAAAABAAABAAAAAAAIAAAAAACAA=</HashCode>
+      <FileName>UnitTestTicketTypesTesting.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TicketManagementSustemTesting.UnitTestUsersTesting">
+    <Position X="8.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAgAAAAAAAAAAABAAAAAACAIAAEAAAAAAAAA=</HashCode>
+      <FileName>UnitTestUsersTesting.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

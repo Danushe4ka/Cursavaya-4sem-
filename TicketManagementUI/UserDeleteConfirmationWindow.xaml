@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TicketManagementUI"
         mc:Ignorable="d"
-        Title="UserDeleteConfirmationWindow" Height="312" Width="296">
+        Title="Подтверждение удаления пользователя" Height="312" Width="296">
     <Grid>
         <TextBlock HorizontalAlignment="Center" Margin="0,38,0,0" TextWrapping="Wrap" Text="Вы действительно желаете удалить выбранного пользователя?" VerticalAlignment="Top" Height="78" Width="212" FontSize="16" TextAlignment="Center"/>
         <TextBlock HorizontalAlignment="Center" Margin="0,121,0,0" TextWrapping="Wrap" Text="Действие не может быть отменено. Средства за все заказы будут возвращены!" VerticalAlignment="Top" Height="52" Width="212" TextAlignment="Center"/>

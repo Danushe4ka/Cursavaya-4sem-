@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TicketManagementUI"
         mc:Ignorable="d"
-        Title="BuyTicket" Height="558" Width="701">
+        Title="Выбор места" Height="558" Width="701">
     <Window.Resources>
         <Style x:Key="CommonControlStyle" TargetType="Control">
             <Setter Property="Background">

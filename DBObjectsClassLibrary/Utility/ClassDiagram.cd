@@ -1,184 +1,184 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="DBObjectsClassLibrary.DataAccess.CommonManager&lt;T&gt;" Collapsed="true">
-    <Position X="21" Y="6.75" Width="1.5" />
+  <Class Name="DBObjectsClassLibrary.DataAccess.CommonManager&lt;T&gt;">
+    <Position X="22.25" Y="13.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAAAAAAAAgAAEAAEAAAAAAABAABAA=</HashCode>
       <FileName>DataAccess\CommonManager.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="DBObjectsClassLibrary.DataAccess.SpectaclesManager" Collapsed="true">
-    <Position X="23.25" Y="8" Width="1.5" />
+  <Class Name="DBObjectsClassLibrary.DataAccess.SpectaclesManager">
+    <Position X="24.5" Y="17.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAAAAAAAAgAAEAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>DataAccess\SpectaclesManager.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DBObjectsClassLibrary.DataAccess.TicketsManager" Collapsed="true">
-    <Position X="18.75" Y="8" Width="1.5" />
+  <Class Name="DBObjectsClassLibrary.DataAccess.TicketsManager">
+    <Position X="20" Y="17.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAAAAAAAAgAAEAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>DataAccess\TicketsManager.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DBObjectsClassLibrary.DataAccess.TicketTypesManager" Collapsed="true">
-    <Position X="19.25" Y="3" Width="1.5" />
+  <Class Name="DBObjectsClassLibrary.DataAccess.TicketTypesManager">
+    <Position X="24.5" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAEAAABAAAAAAAAAAAAgAAAAAAAAAAAgAAAAABAABAA=</HashCode>
       <FileName>DataAccess\TicketTypesManager.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DBObjectsClassLibrary.DataAccess.UsersManager" Collapsed="true">
-    <Position X="21" Y="8" Width="1.5" />
+  <Class Name="DBObjectsClassLibrary.DataAccess.UsersManager">
+    <Position X="22.25" Y="17.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAAAAAAAAgAAEAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>DataAccess\UsersManager.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DBObjectsClassLibrary.Models.Spectacles.ComedySpectacle" Collapsed="true">
-    <Position X="6.5" Y="3.25" Width="1.5" />
+  <Class Name="DBObjectsClassLibrary.Models.Spectacles.ComedySpectacle">
+    <Position X="29.75" Y="10" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Spectacles\ComedySpectacle.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DBObjectsClassLibrary.Models.Spectacles.DramaSpectacle" Collapsed="true">
-    <Position X="8.75" Y="3.25" Width="1.5" />
+  <Class Name="DBObjectsClassLibrary.Models.Spectacles.DramaSpectacle">
+    <Position X="32" Y="10" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Spectacles\DramaSpectacle.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DBObjectsClassLibrary.Models.Spectacles.NovelSpectacle" Collapsed="true">
-    <Position X="11" Y="3.25" Width="1.5" />
+  <Class Name="DBObjectsClassLibrary.Models.Spectacles.NovelSpectacle">
+    <Position X="34.25" Y="10" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Spectacles\NovelSpectaclecs.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DBObjectsClassLibrary.Models.Spectacles.TragedySpectacle" Collapsed="true">
-    <Position X="4.25" Y="3.25" Width="1.5" />
+  <Class Name="DBObjectsClassLibrary.Models.Spectacles.TragedySpectacle">
+    <Position X="27.5" Y="10" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Spectacles\TragedySpectacle.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DBObjectsClassLibrary.Models.Spectacle" Collapsed="true">
-    <Position X="7.5" Y="2" Width="1.5" />
+  <Class Name="DBObjectsClassLibrary.Models.Spectacle">
+    <Position X="30.75" Y="6.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ACAAAAAAAAAAAAAAAEIAAAAAAACAAQAAgAABAAAAAEA=</HashCode>
       <FileName>Models\Spectacles\Spectacle.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DBObjectsClassLibrary.Models.BeletageTicket" Collapsed="true">
-    <Position X="6.5" Y="9.25" Width="1.5" />
+  <Class Name="DBObjectsClassLibrary.Models.BeletageTicket">
+    <Position X="38.5" Y="11.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAQAAAAAAAAA=</HashCode>
       <FileName>Models\Tickets\BeletageTicket.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DBObjectsClassLibrary.Models.Ticket" Collapsed="true">
-    <Position X="6.5" Y="8" Width="1.5" />
+  <Class Name="DBObjectsClassLibrary.Models.Ticket">
+    <Position X="38.5" Y="6.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQoBAAAAACAAACAAAAAAARACAAAAAIAAAUAgIAAAAAA=</HashCode>
       <FileName>Models\Tickets\Ticket.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="DBObjectsClassLibrary.Models.Admin" Collapsed="true">
-    <Position X="6.5" Y="6.25" Width="1.5" />
+  <Class Name="DBObjectsClassLibrary.Models.Admin">
+    <Position X="29.25" Y="17" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Users\Admin.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DBObjectsClassLibrary.Models.Courier" Collapsed="true">
-    <Position X="8.75" Y="6.25" Width="1.5" />
+  <Class Name="DBObjectsClassLibrary.Models.Courier">
+    <Position X="31.5" Y="17" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Users\Courier.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DBObjectsClassLibrary.Models.RegUser" Collapsed="true">
-    <Position X="4.25" Y="6.25" Width="1.5" />
+  <Class Name="DBObjectsClassLibrary.Models.RegUser">
+    <Position X="27" Y="17" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Users\RegUser.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DBObjectsClassLibrary.Models.Tickets.AmphitheatreTicket" Collapsed="true">
-    <Position X="4.25" Y="9.25" Width="1.5" />
+  <Class Name="DBObjectsClassLibrary.Models.Tickets.AmphitheatreTicket">
+    <Position X="36.25" Y="11.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAQAAAAAAAAA=</HashCode>
       <FileName>Models\Tickets\AmphitheatreTicket.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DBObjectsClassLibrary.Models.Tickets.ParterTicket" Collapsed="true">
-    <Position X="8.75" Y="9.25" Width="1.5" />
+  <Class Name="DBObjectsClassLibrary.Models.Tickets.ParterTicket">
+    <Position X="40.75" Y="11.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAQAAAAAAAAA=</HashCode>
       <FileName>Models\Tickets\ParterTicket.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DBObjectsClassLibrary.BaseUser" Collapsed="true">
-    <Position X="6.5" Y="5" Width="1.5" />
+  <Class Name="DBObjectsClassLibrary.BaseUser">
+    <Position X="29.25" Y="13.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAEAAAAAAAAAAAAAACAQIAAAAAAAA=</HashCode>
       <FileName>Models\Users\BaseUser.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DBObjectsClassLibrary.DBConnectionManager" Collapsed="true">
-    <Position X="21" Y="2" Width="1.5" />
+  <Class Name="DBObjectsClassLibrary.DBConnectionManager">
+    <Position X="21" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAAAAAAEAAAAAgBAABAAAAAAAAAAAAAAABAA=</HashCode>
       <FileName>Utility\DBConnectionManager.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DBObjectsClassLibrary.Utility.Bin" Collapsed="true">
-    <Position X="19.25" Y="2" Width="1.5" />
+  <Class Name="DBObjectsClassLibrary.Utility.Bin">
+    <Position X="19.25" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAAAAAQAAAAIACAAABAAAAAAAAAAAAAAACAI=</HashCode>
       <FileName>Utility\Bin.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DBObjectsClassLibrary.Utility.ReportBuilder" Collapsed="true">
-    <Position X="22.75" Y="2" Width="1.5" />
+  <Class Name="DBObjectsClassLibrary.Utility.ReportBuilder">
+    <Position X="22.75" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEgEACAAAAAAAAAAAAAg=</HashCode>
       <FileName>Utility\ReportBuilder.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Interface Name="DBObjectsClassLibrary.DataAccess.ICreate&lt;T&gt;" Collapsed="true">
-    <Position X="19.25" Y="4.25" Width="1.5" />
+  <Interface Name="DBObjectsClassLibrary.DataAccess.ICreate&lt;T&gt;">
+    <Position X="19.25" Y="10.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>DataAccess\ICreate.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="DBObjectsClassLibrary.DataAccess.IDelete&lt;T&gt;" Collapsed="true">
-    <Position X="21" Y="4.25" Width="1.5" />
+  <Interface Name="DBObjectsClassLibrary.DataAccess.IDelete&lt;T&gt;">
+    <Position X="21" Y="10.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>DataAccess\IDelete.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="DBObjectsClassLibrary.DataAccess.IRead&lt;T&gt;" Collapsed="true">
-    <Position X="22.75" Y="4.25" Width="1.5" />
+  <Interface Name="DBObjectsClassLibrary.DataAccess.IRead&lt;T&gt;">
+    <Position X="22.75" Y="10.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>DataAccess\IRead.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="DBObjectsClassLibrary.DataAccess.IUpdate&lt;T&gt;" Collapsed="true">
-    <Position X="21" Y="5" Width="1.5" />
+  <Interface Name="DBObjectsClassLibrary.DataAccess.IUpdate&lt;T&gt;">
+    <Position X="24.5" Y="10.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>DataAccess\IUpdate.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="DBObjectsClassLibrary.Models.Tickets.ITicket" Collapsed="true">
-    <Position X="19.25" Y="5" Width="1.5" />
+  <Interface Name="DBObjectsClassLibrary.Models.Tickets.ITicket">
+    <Position X="19.25" Y="11.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Tickets\ITicket.cs</FileName>

@@ -13,7 +13,7 @@ namespace TicketManagementSustemTesting
     {
         NpgsqlCommand _cmd = new NpgsqlCommand();
         SpectaclesManager _spectaclesManager = new SpectaclesManager();
-        Spectacle _newSpectacle = new DramaSpectacle("Test", "testauthor", new DateTime(2000, 1, 1, 10, 30, 0));
+        Spectacle _newSpectacle = new DramaSpectacle("Test", "testauthor", new DateTime(2000, 1, 1));
         [TestMethod]
         public void TestRead()
         {
@@ -35,9 +35,9 @@ namespace TicketManagementSustemTesting
         {
             _spectaclesManager.Create(_newSpectacle);
             var spectacles = _spectaclesManager.Read();
-            _spectaclesManager.Update(new NovelSpectacle("Test1", "testauthor", new DateTime(2000, 1, 1, 10, 30, 0)));
+            _spectaclesManager.Update(new NovelSpectacle("Test1", "testauthor", new DateTime(2000, 1, 1)));
             Assert.IsTrue(_spectaclesManager.Read()[spectacles.Count - 1].SpectacleName == "Test1");
-            _spectaclesManager.Delete(new NovelSpectacle("Test1", "testauthor", new DateTime(2000, 1, 1, 10, 30, 0)));
+            _spectaclesManager.Delete(new NovelSpectacle("Test1", "testauthor", new DateTime(2000, 1, 1)));
         }
         [TestMethod]
         public void TestDelete()

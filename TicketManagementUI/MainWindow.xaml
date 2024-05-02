@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TicketManagementUI"
         xmlns:DataAccess="clr-namespace:DBObjectsClassLibrary.DataAccess;assembly=DBObjectsClassLibrary" x:Class="TicketManagementUI.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="565" Width="983"
+        Title="Главная" Height="565" Width="983"
         Closing="MainWindow_Closing">
     <Window.Resources>
 

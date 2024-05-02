@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TicketManagementUI"
         mc:Ignorable="d"
-        Title="TicketsBin" Height="447" Width="686"
+        Title="Подтверждение покупки" Height="447" Width="686"
         Closing="Window_Closing">
     <Window.Resources>
         <Style x:Key="CommonControlStyle" TargetType="Control">

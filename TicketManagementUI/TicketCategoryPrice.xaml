@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TicketManagementUI"
         mc:Ignorable="d"
-        Title="TicketCategoryPrice" Height="326" Width="204">
+        Title="Изменение цены" Height="326" Width="204">
     <Window.Resources>
         <Style x:Key="CommonControlStyle" TargetType="Control">
             <Setter Property="Background">
